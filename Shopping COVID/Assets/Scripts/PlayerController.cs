@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public void LooseLife() {
         if (gameManager != null && gameManager.IsGameActive) {
             if (!hasMask && life > 0) {
+                gameManager.DecreaseLife();
                 life--;
             }
 

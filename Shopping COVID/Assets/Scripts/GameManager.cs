@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject titleScreen;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject gameoverScreen;
+    [SerializeField] private LifeBarController lifeBarController;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +44,11 @@ public class GameManager : MonoBehaviour
 
     public bool IsGameActive {
         get => isGameActive;
+    }
+
+    public void DecreaseLife() {
+        lifeBarController.DecreaseLife();
+
     }
 
     public void GameOver() {
