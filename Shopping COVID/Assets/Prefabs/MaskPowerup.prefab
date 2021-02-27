@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4743989689220407022}
   - component: {fileID: 4743989689220407023}
   - component: {fileID: 4743989689220407016}
+  - component: {fileID: 1441491397}
   m_Layer: 11
   m_Name: MaskPowerup
   m_TagString: Mask
@@ -94,8 +95,24 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.5045185, y: 2.1795597, z: 2.884718}
-  m_Center: {x: -0.05298829, y: 1.0958238, z: -0.023137093}
+  m_Size: {x: 2.5045185, y: 7.614011, z: 2.884718}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1441491397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4743989689220407017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 202691b327ca73e43acbd4bb4387ba62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 50
+  movementY: 0.002
+  movementSpeed: 1
+  sin: 0
 --- !u!1 &4743989689226365314
 GameObject:
   m_ObjectHideFlags: 0

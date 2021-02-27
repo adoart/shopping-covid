@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public NavMeshAgent agent;
     private Animator playerAnimator;
     private GameManager gameManager;
+    [SerializeField]private GameObject powerupIndicator;
 
     public int startingLife = 3;
     private int life;
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
         life = startingLife;
         playerAnimator = GetComponentInChildren<Animator>();
         gameManager = FindObjectOfType<GameManager>();
+        powerupIndicator.SetActive(false);
     }
     // Update is called once per frame
     void Update() {
@@ -60,7 +62,10 @@ public class PlayerController : MonoBehaviour
     }
 
     IEnumerator MaskPowerupCountdownCoroutine() {
+        powerupIndicator.SetActive(true);
+        hasMask = true;
         yield return new WaitForSeconds(7);
+        powerupIndicator.SetActive(false);
         hasMask = false;
     }
 
@@ -72,7 +77,6 @@ public class PlayerController : MonoBehaviour
         }
 
         if (collision.gameObject.CompareTag("Mask")) {
-            hasMask = true;
             Destroy(collision.gameObject);
             StartCoroutine(MaskPowerupCountdownCoroutine());
         }
