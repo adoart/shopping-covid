@@ -12,6 +12,8 @@
 /[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
+/[Bb]ackups/
+/[Rr]ecordings/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
@@ -22,6 +24,8 @@
 /[Aa]ssets/SimpleShopInteriors.meta
 /[Aa]ssets/Plugins.meta
 /[Aa]ssets/TextMesh Pro.meta
+/[Aa]ssets/[Bb]ackups.meta
+/[Aa]ssets/[Rr]ecordings.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*

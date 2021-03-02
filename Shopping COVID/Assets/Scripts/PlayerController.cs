@@ -9,7 +9,14 @@ public class PlayerController : MonoBehaviour
     public NavMeshAgent agent;
     private Animator playerAnimator;
     private GameManager gameManager;
-    [SerializeField]private GameObject powerupIndicator;
+    private AudioSource audioSource;
+    [SerializeField] private GameObject powerupIndicator;
+    [SerializeField] private AudioClip powerupPickupSound;
+    [SerializeField] private AudioClip itemPickupSound;
+    [SerializeField] private AudioClip winSound;
+    [SerializeField] private AudioClip gameoverSound;
+
+
 
     public int startingLife = 3;
     private int life;
@@ -20,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     void Start() {
         life = startingLife;
+        audioSource = GetComponent<AudioSource>();
         playerAnimator = GetComponentInChildren<Animator>();
         gameManager = FindObjectOfType<GameManager>();
         powerupIndicator.SetActive(false);
@@ -41,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
             if (life <= 0) {
                 ResetLife();
+                audioSource.PlayOneShot(gameoverSound);
                 gameManager.GameOver();
             }
         }
@@ -73,15 +82,18 @@ public class PlayerController : MonoBehaviour
         //Grab the Item
         if (collision.gameObject.CompareTag("Item")) {
             hasItem = true;
+            audioSource.PlayOneShot(itemPickupSound);
             Destroy(collision.gameObject);
         }
 
         if (collision.gameObject.CompareTag("Mask")) {
+            audioSource.PlayOneShot(powerupPickupSound);
             Destroy(collision.gameObject);
             StartCoroutine(MaskPowerupCountdownCoroutine());
         }
 
         if (collision.gameObject.CompareTag("Trolley")) {
+            audioSource.PlayOneShot(powerupPickupSound);
             hasTrolley = true;
             collision.transform.parent = transform;
         }
@@ -89,6 +101,7 @@ public class PlayerController : MonoBehaviour
         //Exit Level
         if (collision.gameObject.CompareTag("Exit")) {
             if (hasItem) {
+                audioSource.PlayOneShot(winSound);
                 gameManager.Win();
             } else {
                 gameManager.ForgotItemWarning();
