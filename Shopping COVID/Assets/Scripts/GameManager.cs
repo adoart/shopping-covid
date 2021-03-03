@@ -62,9 +62,4 @@ public class GameManager : MonoBehaviour
         isGameActive = false;
         winScreen.SetActive(true);
     }
-
-    internal void ForgotItemWarning() {
-        Debug.Log("Forgot the Milk!!!");
-        throw new NotImplementedException();
-    }
 }

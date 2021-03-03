@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip itemPickupSound;
     [SerializeField] private AudioClip winSound;
     [SerializeField] private AudioClip gameoverSound;
-
+    [SerializeField] private GameObject forgotTextBubble;
+    [SerializeField] private Vector3 forgotBubbleOffset;
 
 
     public int startingLife = 3;
@@ -35,9 +36,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update() {
         MouseMovePlayer();
+        UpdateForgotBubblePosition();
 
         //Update animator speed to control animation.
         playerAnimator.SetFloat("Speed_f", agent.velocity.magnitude);
+    }
+
+    private void UpdateForgotBubblePosition() {
+        if (forgotTextBubble) {
+            forgotTextBubble.transform.position = Camera.main.WorldToScreenPoint(transform.position + forgotBubbleOffset);
+        }
     }
 
     public void LooseLife() {
@@ -78,6 +86,12 @@ public class PlayerController : MonoBehaviour
         hasMask = false;
     }
 
+    IEnumerator ForgotCountdownCoroutine() {
+        forgotTextBubble.SetActive(true);
+        yield return new WaitForSeconds(7);
+        forgotTextBubble.SetActive(false);
+    }
+
     private void OnCollisionEnter(Collision collision) {
         //Grab the Item
         if (collision.gameObject.CompareTag("Item")) {
@@ -104,7 +118,7 @@ public class PlayerController : MonoBehaviour
                 audioSource.PlayOneShot(winSound);
                 gameManager.Win();
             } else {
-                gameManager.ForgotItemWarning();
+                StartCoroutine(ForgotCountdownCoroutine());
             }
         }
 
