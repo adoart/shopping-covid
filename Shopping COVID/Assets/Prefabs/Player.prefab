@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 1108851230557257223}
   - component: {fileID: 521182610}
   - component: {fileID: 521182612}
-  - component: {fileID: 521182611}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -68,6 +67,12 @@ MonoBehaviour:
   cam: {fileID: 0}
   agent: {fileID: 1108851230557257223}
   powerupIndicator: {fileID: 1109397859128661899}
+  powerupPickupSound: {fileID: 0}
+  itemPickupSound: {fileID: 0}
+  winSound: {fileID: 0}
+  gameoverSound: {fileID: 0}
+  forgotTextBubble: {fileID: 0}
+  forgotBubbleOffset: {x: 0, y: 0, z: 0}
   startingLife: 3
   hasItem: 0
   hasMask: 0
@@ -225,32 +230,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &521182611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1108851230557257222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fac6c64dc9951047b25201850573698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clips:
-  - {fileID: 8300000, guid: d3d954742ca5a1447b5272399e0afe8b, type: 3}
-  - {fileID: 8300000, guid: b6db47d6f252cbc4b87dbfb61593b71f, type: 3}
-  - {fileID: 8300000, guid: b982f14295e8835489021950a2298cd5, type: 3}
-  - {fileID: 8300000, guid: 01f478a963049394f855d4b2f2c00bb8, type: 3}
-  - {fileID: 8300000, guid: 7c7bec4cd57b3004583cf2942f73d29c, type: 3}
-  - {fileID: 8300000, guid: 9db1fa0c8328bc94f877dab94c05e90d, type: 3}
-  - {fileID: 8300000, guid: 3cda3d996d3aef24d868880cd7371361, type: 3}
-  - {fileID: 8300000, guid: deaac10ba0f494b4b8834d62cd454469, type: 3}
-  - {fileID: 8300000, guid: 8ef9f1f036cc2f6429b8e60fee4db405, type: 3}
-  - {fileID: 8300000, guid: bb9bae0fb74cec4458b292b7b10ac374, type: 3}
-  - {fileID: 8300000, guid: 263fcaffb6942934c865d14b4d28de47, type: 3}
-  - {fileID: 8300000, guid: 5e053161b03354546997a55d7b32fade, type: 3}
-  - {fileID: 8300000, guid: 51791b154621e7d428d055a8c4a22a17, type: 3}
 --- !u!114 &27373979
 MonoBehaviour:
   m_ObjectHideFlags: 0
