@@ -9960,20 +9960,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 784066208393877899, guid: ffda09df003e5aa4b9cda4455d1c54f4,
-        type: 3}
-      propertyPath: m_Extents.x
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6954684259162975330, guid: ffda09df003e5aa4b9cda4455d1c54f4,
         type: 3}
       propertyPath: m_Name
       value: TrolleyPowerup
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954684259162975331, guid: ffda09df003e5aa4b9cda4455d1c54f4,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6954684259162975334, guid: ffda09df003e5aa4b9cda4455d1c54f4,
         type: 3}

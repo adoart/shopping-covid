@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LifeBarController : MonoBehaviour
-{
+public class LifeBarController : MonoBehaviour {
     public int lifeTotal;
     public int lifeNumber;
 
@@ -18,8 +17,7 @@ public class LifeBarController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         CreateHeartImage(new Vector2(10, 0));
         CreateHeartImage(new Vector2(60, 0));
         CreateHeartImage(new Vector2(110, 0));
@@ -28,7 +26,7 @@ public class LifeBarController : MonoBehaviour
     public void DecreaseLife() {
         heartImageList[--lifeNumber].SetEmptyHeart();
     }
-    
+
     private HeartImage CreateHeartImage(Vector2 anchoredPosition) {
         GameObject heartGameObject = new GameObject("Heart", typeof(Image));
         // Set as child of this transform
@@ -47,12 +45,11 @@ public class LifeBarController : MonoBehaviour
         return heartImage;
     }
 
-    public class HeartImage
-    {
+    public class HeartImage {
         private LifeBarController lifeBarController;
         private Image heartImage;
 
-        public HeartImage (LifeBarController lifeBarController, Image heartImage) {
+        public HeartImage(LifeBarController lifeBarController, Image heartImage) {
             this.lifeBarController = lifeBarController;
             this.heartImage = heartImage;
         }
@@ -60,5 +57,5 @@ public class LifeBarController : MonoBehaviour
         public void SetEmptyHeart() {
             this.heartImage.sprite = lifeBarController.heartSpriteEmpty;
         }
-    } 
+    }
 }

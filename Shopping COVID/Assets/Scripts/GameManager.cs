@@ -4,24 +4,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
     private bool isGameActive;
     [SerializeField] private GameObject titleScreen;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject gameoverScreen;
+    [SerializeField] private GameObject forgotTextBubble;
     [SerializeField] private LifeBarController lifeBarController;
 
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip gameoverSound;
+    [SerializeField] private AudioClip winSound;
+
+    [SerializeField] private int lifes = 3;
+    private PlayerController player;
+    public bool hasItem = false;
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
+        audioSource = GetComponent<AudioSource>();
+        player = FindObjectOfType<PlayerController>();
+        player.HitByEnemy += DecreaseLife;
+        player.PickedUpItem += PickupItem;
+        player.TriedToExit += TryToExit;
         StartGame();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void TryToExit() {
+        if (hasItem) {
+            Win();
+        } else {
+            StartCoroutine(ForgotCountdownCoroutine());
+        }
+    }
+    
+    IEnumerator ForgotCountdownCoroutine() {
+        forgotTextBubble.SetActive(true);
+        yield return new WaitForSeconds(7);
+        forgotTextBubble.SetActive(false);
+    }
+    
+    private void PickupItem() {
+        hasItem = true;
     }
 
     public void StartGame() {
@@ -42,23 +65,34 @@ public class GameManager : MonoBehaviour
         ResetGame();
     }
 
-    public bool IsGameActive {
+    public bool IsGameActive
+    {
         get => isGameActive;
     }
 
-    public void DecreaseLife() {
+    private void DecreaseLife() {
         lifeBarController.DecreaseLife();
-
+        if (isGameActive) {
+            if (lifes > 0) {
+                lifes--;
+            } 
+            
+            if (lifes <= 0) {
+                GameOver();
+            }
+        }
     }
 
-    public void GameOver() {
+    private void GameOver() {
         Debug.Log("You got COVID!!!");
+        audioSource.PlayOneShot(gameoverSound);
         isGameActive = false;
         gameoverScreen.SetActive(true);
     }
 
-    internal void Win() {
+    private void Win() {
         Debug.Log("Win!!!"); //TODO add next level button...
+        audioSource.PlayOneShot(winSound);
         isGameActive = false;
         winScreen.SetActive(true);
     }
