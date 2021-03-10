@@ -67,16 +67,10 @@ MonoBehaviour:
   cam: {fileID: 0}
   agent: {fileID: 1108851230557257223}
   powerupIndicator: {fileID: 1109397859128661899}
-  powerupPickupSound: {fileID: 0}
-  itemPickupSound: {fileID: 0}
-  winSound: {fileID: 0}
-  gameoverSound: {fileID: 0}
+  powerupPickupSound: {fileID: 8300000, guid: 48772399db672a1498de6d4a1ed9ed04, type: 3}
+  itemPickupSound: {fileID: 8300000, guid: 75f2088bda0e19942bbc0b96558e096a, type: 3}
   forgotTextBubble: {fileID: 0}
-  forgotBubbleOffset: {x: 0, y: 0, z: 0}
-  startingLife: 3
-  hasItem: 0
-  hasMask: 0
-  hasTrolley: 0
+  forgotBubbleOffset: {x: 0, y: 3, z: 3}
 --- !u!54 &1108851230557257220
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -126,7 +120,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

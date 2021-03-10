@@ -3,8 +3,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour {
+    #region Events
+    public event Action HitByEnemy;
+    public event Action PickedUpItem;
+    public event Action TriedToExit;
+    #endregion
+
     public Camera cam;
     public NavMeshAgent agent;
     private Animator playerAnimator;
@@ -13,21 +18,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject powerupIndicator;
     [SerializeField] private AudioClip powerupPickupSound;
     [SerializeField] private AudioClip itemPickupSound;
-    [SerializeField] private AudioClip winSound;
-    [SerializeField] private AudioClip gameoverSound;
     [SerializeField] private GameObject forgotTextBubble;
     [SerializeField] private Vector3 forgotBubbleOffset;
 
-
-    public int startingLife = 3;
-    private int life;
-    public bool hasItem = false;
-    public bool hasMask = false;
-    public bool hasTrolley = false;
-    
+    private bool hasMask;
 
     void Start() {
-        life = startingLife;
         audioSource = GetComponent<AudioSource>();
         playerAnimator = GetComponentInChildren<Animator>();
         gameManager = FindObjectOfType<GameManager>();
@@ -44,27 +40,14 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateForgotBubblePosition() {
         if (forgotTextBubble) {
-            forgotTextBubble.transform.position = Camera.main.WorldToScreenPoint(transform.position + forgotBubbleOffset);
+            forgotTextBubble.transform.position = cam.WorldToScreenPoint(transform.position + forgotBubbleOffset);
         }
     }
 
     public void LooseLife() {
-        if (gameManager != null && gameManager.IsGameActive) {
-            if (!hasMask && life > 0) {
-                gameManager.DecreaseLife();
-                life--;
-            }
-
-            if (life <= 0) {
-                ResetLife();
-                audioSource.PlayOneShot(gameoverSound);
-                gameManager.GameOver();
-            }
+        if (HitByEnemy != null && !hasMask) {
+            HitByEnemy();
         }
-    }
-
-    private void ResetLife() {
-        life = startingLife;
     }
 
     private void MouseMovePlayer() {
@@ -86,16 +69,12 @@ public class PlayerController : MonoBehaviour
         hasMask = false;
     }
 
-    IEnumerator ForgotCountdownCoroutine() {
-        forgotTextBubble.SetActive(true);
-        yield return new WaitForSeconds(7);
-        forgotTextBubble.SetActive(false);
-    }
-
     private void OnCollisionEnter(Collision collision) {
         //Grab the Item
         if (collision.gameObject.CompareTag("Item")) {
-            hasItem = true;
+            if (PickedUpItem != null) {
+                PickedUpItem();
+            }
             audioSource.PlayOneShot(itemPickupSound);
             Destroy(collision.gameObject);
         }
@@ -108,19 +87,14 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Trolley")) {
             audioSource.PlayOneShot(powerupPickupSound);
-            hasTrolley = true;
             collision.transform.parent = transform;
         }
 
         //Exit Level
         if (collision.gameObject.CompareTag("Exit")) {
-            if (hasItem) {
-                audioSource.PlayOneShot(winSound);
-                gameManager.Win();
-            } else {
-                StartCoroutine(ForgotCountdownCoroutine());
+            if (TriedToExit != null) {
+                TriedToExit();
             }
         }
-
     }
 }
