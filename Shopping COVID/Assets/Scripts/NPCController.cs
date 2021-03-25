@@ -31,6 +31,7 @@ public class NPCController : MonoBehaviour
     }
 
     protected IEnumerator WaitForNextMove() {
+        yield return new WaitForSeconds(1);
         MoveAgent();
         yield return new WaitForSeconds(Random.Range(5,10));
         StartCoroutine(WaitForNextMove());

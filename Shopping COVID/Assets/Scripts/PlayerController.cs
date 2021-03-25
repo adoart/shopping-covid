@@ -5,9 +5,13 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour {
     #region Events
+
     public event Action HitByEnemy;
+
     public event Action PickedUpItem;
+
     public event Action TriedToExit;
+
     #endregion
 
     public Camera cam;
@@ -28,6 +32,7 @@ public class PlayerController : MonoBehaviour {
         playerAnimator = GetComponentInChildren<Animator>();
         gameManager = FindObjectOfType<GameManager>();
         powerupIndicator.SetActive(false);
+        
     }
     // Update is called once per frame
     void Update() {
