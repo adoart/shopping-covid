@@ -11,6 +11,7 @@ TagManager:
   - Trolley
   - Singleton
   - Procedural
+  - Enemy
   layers:
   - Default
   - TransparentFX

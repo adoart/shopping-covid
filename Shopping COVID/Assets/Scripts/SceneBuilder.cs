@@ -10,10 +10,11 @@ public class SceneBuilder : MonoBehaviour {
     [FormerlySerializedAs("ISLE_HOR_MARGIN")]
     [SerializeField]
     private float isleHorMargin = 4;
-
     [SerializeField]
     private LevelDefinition levelDefinition;
 
+    [Space]
+    [Header("Interior")]
     [SerializeField]
     private List<GameObject> floorAssets;
     [SerializeField]
@@ -32,6 +33,10 @@ public class SceneBuilder : MonoBehaviour {
     private List<GameObject> npcs;
     [SerializeField]
     private List<GameObject> enemies;
+    [SerializeField]
+    private List<GameObject> masks;
+    [SerializeField]
+    private List<GameObject> trolleys;
 
     [SerializeField]
     private NavMeshSurface[] surfaces;
@@ -65,6 +70,23 @@ public class SceneBuilder : MonoBehaviour {
         foreach (GameObject mapAsset in mapAssets) {
             DestroyImmediate(mapAsset);
         }
+        GameObject[] npcAssets = GameObject.FindGameObjectsWithTag("NPC");
+        foreach (GameObject npcAsset in npcAssets) {
+            DestroyImmediate(npcAsset);
+        }
+        GameObject[] enemyAssets = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemyAsset in enemyAssets) {
+            DestroyImmediate(enemyAsset);
+        }
+        GameObject[] maskAssets = GameObject.FindGameObjectsWithTag("Mask");
+        foreach (GameObject maskAsset in maskAssets) {
+            DestroyImmediate(maskAsset);
+        }
+        GameObject[] trolleyAssets = GameObject.FindGameObjectsWithTag("Trolley");
+        foreach (GameObject trolleyAsset in trolleyAssets) {
+            DestroyImmediate(trolleyAsset);
+        }
+
         if (exitInstance) {
             DestroyImmediate(exitInstance);
         }
@@ -80,10 +102,13 @@ public class SceneBuilder : MonoBehaviour {
         //Layout isle stalls
         LayoutIsles();
         //Layout Start & Exit
-        LayoutStartExit();
+        LayoutStartExitPlayer();
         //Spawn NPCs
-        SpawnNPCs(levelDefinition.numberOfNPCs, npcs);
-        SpawnNPCs(levelDefinition.numberOfEnemies, enemies);
+        SpawnNPCs(levelDefinition.numberOfNPCs, npcs, "NPC");
+        SpawnNPCs(levelDefinition.numberOfEnemies, enemies, "Enemy");
+        SpawnPowerups(levelDefinition.numberOfMaskPowerUps, masks, "Mask");
+        SpawnPowerups(levelDefinition.numberOfTrolleyPowerUps, trolleys, "Trolley");
+        LayoutPlayer();
     }
     private void LayoutFloor() {
         GameObject floor = floorAssets[Random.Range(0, floorAssets.Count)];
@@ -136,12 +161,14 @@ public class SceneBuilder : MonoBehaviour {
         exitInstance.tag = "Exit";
     }
     private void LayoutIsles() {
-        GameObject isle = isleAssets[0 /*Random.Range(0, isleAssets.Count)*/];
+        GameObject isle = isleAssets[1];
         Vector3 isleSize = isle.GetComponent<BoxCollider>().size;
         for (float i = isleVertMargin;
             i < mapHeight - (isleSize.x + isleVertMargin);
             i += isleSize.x + isleVertMargin) {
-            for (float j = isleHorMargin; j < mapWith - (isleSize.z + isleHorMargin); j += isleSize.z + isleHorMargin) {
+            for (float j = isleHorMargin;
+                j < mapWith - ( /*isleSize.z +*/ isleHorMargin);
+                j += isleSize.z + isleHorMargin) {
                 GameObject instance = Instantiate(isle, new Vector3(i, 0, j), isle.transform.rotation);
                 instance.tag = "Procedural";
                 if (randomize) {
@@ -151,7 +178,7 @@ public class SceneBuilder : MonoBehaviour {
             }
         }
     }
-    private void LayoutStartExit() {
+    private void LayoutStartExitPlayer() {
         //Start on bottom left (0 x levelDefinitionMapHeight)
         GameObject start = Instantiate(startAsset, new Vector3(mapHeight - 5.5f, 0, 7),
             startAsset.transform.rotation);
@@ -161,15 +188,16 @@ public class SceneBuilder : MonoBehaviour {
         GameObject exit = Instantiate(exitAsset, new Vector3(mapHeight - 6.5f, 0, mapWith - 13),
             exitAsset.transform.rotation);
         exit.tag = "Procedural";
-
     }
 
-    private void SpawnNPCs(int quantity, List<GameObject> prefabsList) {
+    private void SpawnNPCs(int quantity, List<GameObject> prefabsList, string npcTag) {
         for (int i = 0; i < quantity; i++) {
             GameObject npcPrefab = prefabsList[Random.Range(0, prefabsList.Count)];
             Vector3 position = GetNPCRandomPosition();
             GameObject instance = Instantiate(npcPrefab, position, npcPrefab.transform.rotation);
-            instance.tag = "Procedural";
+            instance.tag = npcTag;
+            NPCController npcController = instance.GetComponent<NPCController>();
+            npcController.SetMapDimensions(mapHeight, mapWith);
 
             // if spawn inside something try to move it out
             int maxTries = 10;
@@ -179,6 +207,27 @@ public class SceneBuilder : MonoBehaviour {
                 maxTries--;
             }
         }
+    }
+    private void SpawnPowerups(int quantity, List<GameObject> prefabsList, string powerupTag) {
+        for (int i = 0; i < quantity; i++) {
+            GameObject npcPrefab = prefabsList[Random.Range(0, prefabsList.Count)];
+            Vector3 position = GetNPCRandomPosition();
+            GameObject instance = Instantiate(npcPrefab, position, npcPrefab.transform.rotation);
+            instance.tag = powerupTag;
+
+            // if spawn inside something try to move it out
+            int maxTries = 10;
+            Collider[] colliders = new Collider[5];
+            while (Physics.OverlapSphereNonAlloc(instance.transform.position, 1.0f, colliders) > 1 && maxTries > 0) {
+                instance.transform.position = GetNPCRandomPosition();
+                maxTries--;
+            }
+        }
+    }
+    private void LayoutPlayer() {
+        GameObject player = GameObject.FindWithTag("Player");
+        player.transform.position =
+            new Vector3(mapHeight - 5.5f, 1, 4.5f); //TODO FIXME: doest update position on run...
     }
     private Vector3 GetNPCRandomPosition() {
         return new Vector3(Random.Range(isleVertMargin, mapHeight - isleVertMargin), 1,

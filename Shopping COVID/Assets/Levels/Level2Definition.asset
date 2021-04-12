@@ -15,5 +15,8 @@ MonoBehaviour:
   levelName: Level 2
   numberOfEnemies: 2
   numberOfNPCs: 8
+  powerUpLifeSeconds: 7
+  numberOfMaskPowerUps: 2
+  numberOfTrolleyPowerUps: 1
   mapWith: 50
   mapHeight: 50
