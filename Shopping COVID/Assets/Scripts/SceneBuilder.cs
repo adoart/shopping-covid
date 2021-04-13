@@ -38,6 +38,15 @@ public class SceneBuilder : MonoBehaviour {
     [SerializeField]
     private List<GameObject> trolleys;
 
+    private const int EXTERIOR_MARGIN = 50;
+    [Space]
+    [Header("Exterior")]
+    [SerializeField]
+    private List<GameObject> sidewalks;
+    [SerializeField]
+    private List<GameObject> roads;
+
+
     [SerializeField]
     private NavMeshSurface[] surfaces;
     private GameObject exitInstance;
@@ -106,13 +115,20 @@ public class SceneBuilder : MonoBehaviour {
         //Spawn NPCs
         SpawnNPCs(levelDefinition.numberOfNPCs, npcs, "NPC");
         SpawnNPCs(levelDefinition.numberOfEnemies, enemies, "Enemy");
+        //Spawn Powerups
         SpawnPowerups(levelDefinition.numberOfMaskPowerUps, masks, "Mask");
         SpawnPowerups(levelDefinition.numberOfTrolleyPowerUps, trolleys, "Trolley");
         LayoutPlayer();
+
+        //Layout Exterior
+        //Layout Sidewalks
+        LayoutSidewalk();
+        //Layout Road
+        LayoutRoad();
     }
     private void LayoutFloor() {
         GameObject floor = floorAssets[Random.Range(0, floorAssets.Count)];
-        Vector3 floorSize = floor.GetComponent<BoxCollider>().size;
+        Vector3 floorSize = new Vector3(5, 0, 5); //TODO floor tiles are always 5x5 
         for (float i = 0; i <= (mapHeight - floorSize.x); i += floorSize.x) {
             for (float j = 0; j < mapWith; j += floorSize.z) {
                 GameObject instance = Instantiate(floor, new Vector3(i, 0, j), floor.transform.rotation);
@@ -232,5 +248,77 @@ public class SceneBuilder : MonoBehaviour {
     private Vector3 GetNPCRandomPosition() {
         return new Vector3(Random.Range(isleVertMargin, mapHeight - isleVertMargin), 1,
             Random.Range(isleHorMargin, mapWith - isleHorMargin));
+    }
+
+    private void LayoutRoad() {
+        //Layout bare road
+        GameObject bareRoad = roads[0];
+        Vector3 bareRoadSize = new Vector3(5, 0, 5);
+        for (float i = -EXTERIOR_MARGIN; i <= mapHeight + EXTERIOR_MARGIN; i += bareRoadSize.x) {
+            for (float j = -EXTERIOR_MARGIN; j < mapWith + EXTERIOR_MARGIN; j += bareRoadSize.z) {
+                GameObject instance = Instantiate(bareRoad, new Vector3(i, -0.05f, j), Quaternion.identity);
+                instance.tag = "Procedural";
+            }
+        }
+
+        //Layout Parking lines
+        GameObject parkingLine = roads[1];
+        Vector3 parkingLineSize = new Vector3(5, 0, 10);
+        for (float i = mapHeight; i <= mapHeight + EXTERIOR_MARGIN; i += parkingLineSize.x * 3) {
+            for (float j = 10; j < mapWith; j += parkingLineSize.z) {
+                GameObject instance = Instantiate(parkingLine, new Vector3(i, 0, j), Quaternion.identity);
+                instance.tag = "Procedural";
+            }
+        }
+    }
+
+    private void LayoutSidewalk() {
+        GameObject sidewalk = sidewalks[0];
+        Vector3 sidewalkSize = new Vector3(5, 0, 5);
+        //top sidewalk
+        for (float j = 0; j < mapWith; j += sidewalkSize.x) {
+            GameObject instance = Instantiate(sidewalk, new Vector3(-10, 0, j + 5),
+                Quaternion.AngleAxis(90, Vector3.up));
+            instance.tag = "Procedural";
+        }
+
+        //left sidewalk
+        for (float i = 0; i < mapHeight; i += sidewalkSize.z) {
+            GameObject instance = Instantiate(sidewalk, new Vector3(i - 5, 0, -5), Quaternion.identity);
+            instance.tag = "Procedural";
+        }
+
+        //right sidewalk
+        for (float i = 0; i < mapHeight; i += sidewalkSize.z) {
+            GameObject instance = Instantiate(sidewalk, new Vector3(i, 0, mapWith + 5),
+                Quaternion.AngleAxis(180, Vector3.up));
+            instance.tag = "Procedural";
+        }
+
+        //bottom sidewalk
+        for (float j = 0; j < mapWith; j += sidewalkSize.x) {
+            GameObject instance = Instantiate(sidewalk, new Vector3(mapHeight, 0, j),
+                Quaternion.AngleAxis(-90, Vector3.up));
+            instance.tag = "Procedural";
+        }
+
+        GameObject sidewalkCorner = sidewalks[1];
+        GameObject cornerInstance;
+        //top left corner
+        cornerInstance = Instantiate(sidewalkCorner, new Vector3(-10, 0, -5), Quaternion.identity);
+        cornerInstance.tag = "Procedural";
+        //top right corner
+        cornerInstance = Instantiate(sidewalkCorner, new Vector3(-10, 0, mapWith + 5),
+            Quaternion.AngleAxis(90, Vector3.up));
+        cornerInstance.tag = "Procedural";
+        //bottom left corner
+        cornerInstance = Instantiate(sidewalkCorner, new Vector3(mapHeight, 0, -5),
+            Quaternion.AngleAxis(-90, Vector3.up));
+        cornerInstance.tag = "Procedural";
+        //bottom right corner
+        cornerInstance = Instantiate(sidewalkCorner, new Vector3(mapHeight, 0, mapWith + 5),
+            Quaternion.AngleAxis(180, Vector3.up));
+        cornerInstance.tag = "Procedural";
+
     }
 }
