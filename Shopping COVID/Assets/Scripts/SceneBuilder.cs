@@ -45,6 +45,10 @@ public class SceneBuilder : MonoBehaviour {
     private List<GameObject> sidewalks;
     [SerializeField]
     private List<GameObject> roads;
+    [SerializeField]
+    private List<GameObject> seaSides;
+    [SerializeField]
+    private List<GameObject> buildings;
 
 
     [SerializeField]
@@ -95,9 +99,9 @@ public class SceneBuilder : MonoBehaviour {
         foreach (GameObject trolleyAsset in trolleyAssets) {
             DestroyImmediate(trolleyAsset);
         }
-
-        if (exitInstance) {
-            DestroyImmediate(exitInstance);
+        GameObject[] exitAssets = GameObject.FindGameObjectsWithTag("Exit");
+        foreach (GameObject exitAsset in exitAssets) {
+            DestroyImmediate(exitAsset);
         }
     }
 
@@ -125,6 +129,10 @@ public class SceneBuilder : MonoBehaviour {
         LayoutSidewalk();
         //Layout Road
         LayoutRoad();
+        //Layout top buildings
+        LayoutTopBuildings();
+        //Layout right buildings
+        LayoutRightBuildings();
     }
     private void LayoutFloor() {
         GameObject floor = floorAssets[Random.Range(0, floorAssets.Count)];
@@ -255,7 +263,7 @@ public class SceneBuilder : MonoBehaviour {
         GameObject bareRoad = roads[0];
         Vector3 bareRoadSize = new Vector3(5, 0, 5);
         for (float i = -EXTERIOR_MARGIN; i <= mapHeight + EXTERIOR_MARGIN; i += bareRoadSize.x) {
-            for (float j = -EXTERIOR_MARGIN; j < mapWith + EXTERIOR_MARGIN; j += bareRoadSize.z) {
+            for (float j = -EXTERIOR_MARGIN + 30; j < mapWith + EXTERIOR_MARGIN; j += bareRoadSize.z) {
                 GameObject instance = Instantiate(bareRoad, new Vector3(i, -0.05f, j), Quaternion.identity);
                 instance.tag = "Procedural";
             }
@@ -266,9 +274,54 @@ public class SceneBuilder : MonoBehaviour {
         Vector3 parkingLineSize = new Vector3(5, 0, 10);
         for (float i = mapHeight; i <= mapHeight + EXTERIOR_MARGIN; i += parkingLineSize.x * 3) {
             for (float j = 10; j < mapWith; j += parkingLineSize.z) {
-                GameObject instance = Instantiate(parkingLine, new Vector3(i, 0, j), Quaternion.identity);
+                GameObject instance = Instantiate(parkingLine, new Vector3(i, -0.04f, j), Quaternion.identity);
                 instance.tag = "Procedural";
             }
+        }
+
+        //Layout Crossing lane
+        GameObject crossingLane = roads[2];
+        Vector3 crossingLaneSize = new Vector3(5, 0, 5);
+        for (float i = mapHeight; i <= mapHeight + EXTERIOR_MARGIN; i += crossingLaneSize.x) {
+            GameObject instance = Instantiate(crossingLane, new Vector3(i, -0.04f, 2),
+                Quaternion.AngleAxis(90, Vector3.up));
+            instance.tag = "Procedural";
+        }
+
+        //Layout Road arrows
+        GameObject roadArrow = roads[3];
+        Vector3 roadArrowSize = new Vector3(5, 0, 5);
+        for (float i = mapHeight + 7; i <= mapHeight + EXTERIOR_MARGIN; i += roadArrowSize.x * 3) {
+            GameObject instance = Instantiate(roadArrow, new Vector3(i, -0.04f, 10), Quaternion.identity);
+            instance.tag = "Procedural";
+        }
+
+        //Layout main road (left)
+        GameObject roadLine = roads[4];
+        GameObject roadDivider = roads[5];
+        Vector3 roadLineSize = new Vector3(5, 0, 5);
+        for (float i = -EXTERIOR_MARGIN; i <= mapHeight + EXTERIOR_MARGIN; i += roadLineSize.x) {
+            GameObject instance = Instantiate(roadLine, new Vector3(i, -0.04f, -20), Quaternion.identity);
+            instance.tag = "Procedural";
+            instance = Instantiate(roadLine, new Vector3(i, -0.04f, -15), Quaternion.identity);
+            instance.tag = "Procedural";
+            instance = Instantiate(roadDivider, new Vector3(i, -0.04f, -15), Quaternion.identity);
+            instance.tag = "Procedural";
+        }
+
+        //Layout Sea side
+        GameObject oceanTile = seaSides[0];
+        Vector3 oceanTileSize = new Vector3(30, 0, 30);
+        for (float i = -EXTERIOR_MARGIN; i <= mapHeight + EXTERIOR_MARGIN; i += oceanTileSize.x) {
+            GameObject instance = Instantiate(oceanTile, new Vector3(i, -5, -50), Quaternion.identity);
+            instance.tag = "Procedural";
+        }
+
+        GameObject waterEdge = seaSides[1];
+        Vector3 waterEdgeSize = new Vector3(5, 5, 1);
+        for (float i = -EXTERIOR_MARGIN; i <= mapHeight + EXTERIOR_MARGIN; i += waterEdgeSize.x) {
+            GameObject instance = Instantiate(waterEdge, new Vector3(i, 0, -21), Quaternion.identity);
+            instance.tag = "Procedural";
         }
     }
 
@@ -320,5 +373,109 @@ public class SceneBuilder : MonoBehaviour {
             Quaternion.AngleAxis(180, Vector3.up));
         cornerInstance.tag = "Procedural";
 
+    }
+    private void LayoutTopBuildings() {
+
+        //Layout sidewalk
+        GameObject sidewalk = sidewalks[0];
+        GameObject sidewalkCorner = sidewalks[1];
+        GameObject cornerInstance;
+        Vector3 sidewalkSize = new Vector3(5, 0, 5);
+        //top sidewalk
+        for (float j = 0; j < mapWith + EXTERIOR_MARGIN; j += sidewalkSize.x) {
+            GameObject instance = Instantiate(sidewalk, new Vector3(-20, 0, j), Quaternion.AngleAxis(-90, Vector3.up));
+            instance.tag = "Procedural";
+        }
+        //left sidewalk
+        for (float i = -30; i >= -EXTERIOR_MARGIN; i -= sidewalkSize.z) {
+            GameObject instance = Instantiate(sidewalk, new Vector3(i, 0, -5), Quaternion.identity);
+            instance.tag = "Procedural";
+        }
+        //corner sidewalk
+        cornerInstance = Instantiate(sidewalkCorner, new Vector3(-20, 0, -5), Quaternion.AngleAxis(-90, Vector3.up));
+        cornerInstance.tag = "Procedural";
+
+        //Layout buildings
+        GameObject residentialBuilding = buildings[0];
+        Vector3 residentialBuildingSize = new Vector3(5, 12, 5);
+        //top residential buildings
+        for (float j = 4; j < mapWith + EXTERIOR_MARGIN; j += residentialBuildingSize.x) {
+            GameObject instance = Instantiate(residentialBuilding, new Vector3(-30, 0, j), Quaternion.identity);
+            instance.tag = "Procedural";
+        }
+        //left residential buildings
+        for (float i = -36; i >= -EXTERIOR_MARGIN; i -= residentialBuildingSize.z) {
+            GameObject instance = Instantiate(residentialBuilding, new Vector3(i, 0, 5),
+                Quaternion.AngleAxis(90, Vector3.up));
+            instance.tag = "Procedural";
+        }
+        //Corner residential building
+        GameObject cornerResidentialBuilding = buildings[1];
+        GameObject cornerResidentialBuildingInstance =
+            Instantiate(cornerResidentialBuilding, new Vector3(-30, 0, 0), Quaternion.identity);
+        cornerResidentialBuildingInstance.tag = "Procedural";
+    }
+    private void LayoutRightBuildings() {
+        GameObject sidewalk = sidewalks[0];
+        Vector3 sidewalkSize = new Vector3(5, 0, 5);
+        //top sidewalk
+        for (float j = mapWith + 20; j < mapWith + EXTERIOR_MARGIN; j += sidewalkSize.x) {
+            GameObject instance = Instantiate(sidewalk, new Vector3(-10, 0, j + 5),
+                Quaternion.AngleAxis(90, Vector3.up));
+            instance.tag = "Procedural";
+        }
+
+        //left sidewalk
+        for (float i = -5; i < mapHeight - 5; i += sidewalkSize.z) {
+            GameObject instance = Instantiate(sidewalk, new Vector3(i, 0, mapHeight + 15), Quaternion.identity);
+            instance.tag = "Procedural";
+        }
+
+        //bottom sidewalk
+        for (float j = mapWith + 20; j < mapWith + EXTERIOR_MARGIN; j += sidewalkSize.x) {
+            GameObject instance = Instantiate(sidewalk, new Vector3(mapHeight, 0, j),
+                Quaternion.AngleAxis(-90, Vector3.up));
+            instance.tag = "Procedural";
+        }
+
+        //Corners sidewalk
+        GameObject sidewalkCorner = sidewalks[1];
+        GameObject cornerInstance;
+        //top left corner
+        cornerInstance = Instantiate(sidewalkCorner, new Vector3(-10, 0, mapWith + 15), Quaternion.identity);
+        cornerInstance.tag = "Procedural";
+        //bottom left corner
+        cornerInstance = Instantiate(sidewalkCorner, new Vector3(mapHeight, 0, mapWith + 15),
+            Quaternion.AngleAxis(-90, Vector3.up));
+        cornerInstance.tag = "Procedural";
+
+        //Layout buildings
+        GameObject officeBuilding = buildings[2];
+        Vector3 officeBuildingSize = new Vector3(10, 12, 10);
+        //top office buildings
+        for (float j = mapWith + 40; j <= mapWith + EXTERIOR_MARGIN; j += officeBuildingSize.x) {
+            GameObject officeInstance =
+                Instantiate(officeBuilding, new Vector3(-5, 0, j), Quaternion.AngleAxis(90, Vector3.up));
+            officeInstance.tag = "Procedural";
+        }
+        //left office buildings
+        for (float i = 5; i < mapHeight - 15; i += officeBuildingSize.z) {
+            GameObject instance = Instantiate(officeBuilding, new Vector3(i, 0, mapWith + 20), Quaternion.identity);
+            instance.tag = "Procedural";
+        }
+        //bottom office buildings
+        for (float j = mapWith + 30; j < mapWith + EXTERIOR_MARGIN; j += officeBuildingSize.x) {
+            GameObject officeInstance = Instantiate(officeBuilding, new Vector3(mapHeight - 5, 0, j),
+                Quaternion.AngleAxis(-90, Vector3.up));
+            officeInstance.tag = "Procedural";
+        }
+        //Corner office building
+        GameObject cornerOfficeBuilding = buildings[3];
+        GameObject cornerOfficeBuildingInstance =
+            Instantiate(cornerOfficeBuilding, new Vector3(-5, 0, mapWith + 22), Quaternion.identity);
+        cornerOfficeBuildingInstance.tag = "Procedural";
+        cornerOfficeBuildingInstance = Instantiate(cornerOfficeBuilding, new Vector3(mapHeight - 15, 0, mapWith + 22),
+            Quaternion.identity);
+        cornerOfficeBuildingInstance.tag = "Procedural";
     }
 }
