@@ -49,6 +49,8 @@ public class SceneBuilder : MonoBehaviour {
     private List<GameObject> seaSides;
     [SerializeField]
     private List<GameObject> buildings;
+    [SerializeField]
+    private List<GameObject> cars;
 
 
     [SerializeField]
@@ -276,6 +278,12 @@ public class SceneBuilder : MonoBehaviour {
             for (float j = 10; j < mapWith; j += parkingLineSize.z) {
                 GameObject instance = Instantiate(parkingLine, new Vector3(i, -0.04f, j), Quaternion.identity);
                 instance.tag = "Procedural";
+                //Spawn random cars
+                if (Random.Range(0, 3) == 1) {
+                    GameObject carInstance = Instantiate(cars[Random.Range(0, cars.Count)], new Vector3(i, 0, j + 1),
+                        Quaternion.identity);
+                    carInstance.tag = "Procedural";
+                }
             }
         }
 
