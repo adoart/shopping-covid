@@ -435,7 +435,7 @@ public class SceneBuilder : MonoBehaviour {
 
         //left sidewalk
         for (float i = -5; i < mapHeight - 5; i += sidewalkSize.z) {
-            GameObject instance = Instantiate(sidewalk, new Vector3(i, 0, mapHeight + 15), Quaternion.identity);
+            GameObject instance = Instantiate(sidewalk, new Vector3(i, 0, mapWith + 15), Quaternion.identity);
             instance.tag = "Procedural";
         }
 
