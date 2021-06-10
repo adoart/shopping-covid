@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
 
     public event Action HitByEnemy;
 
-    public event Action PickedUpItem;
+    public event Action<GameObject> PickedUpItem;
 
     public event Action TriedToExit;
 
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
         playerAnimator = GetComponentInChildren<Animator>();
         gameManager = FindObjectOfType<GameManager>();
         powerupIndicator.SetActive(false);
-        
+
     }
     // Update is called once per frame
     void Update() {
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour {
         //Grab the Item
         if (collision.gameObject.CompareTag("Item")) {
             if (PickedUpItem != null) {
-                PickedUpItem();
+                PickedUpItem(collision.gameObject);
             }
             audioSource.PlayOneShot(itemPickupSound);
             Destroy(collision.gameObject);

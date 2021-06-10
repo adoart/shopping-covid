@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,14 +34,14 @@ public class GameManager : MonoBehaviour {
             StartCoroutine(ForgotCountdownCoroutine());
         }
     }
-    
+
     IEnumerator ForgotCountdownCoroutine() {
         forgotTextBubble.SetActive(true);
         yield return new WaitForSeconds(7);
         forgotTextBubble.SetActive(false);
     }
-    
-    private void PickupItem() {
+
+    private void PickupItem(GameObject item) {
         hasItem = true;
     }
 
@@ -65,8 +63,7 @@ public class GameManager : MonoBehaviour {
         ResetGame();
     }
 
-    public bool IsGameActive
-    {
+    public bool IsGameActive {
         get => isGameActive;
     }
 
@@ -75,8 +72,8 @@ public class GameManager : MonoBehaviour {
         if (isGameActive) {
             if (lifes > 0) {
                 lifes--;
-            } 
-            
+            }
+
             if (lifes <= 0) {
                 GameOver();
             }

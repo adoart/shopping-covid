@@ -1020,28 +1020,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 183462112}
   m_CullTransparentMesh: 0
---- !u!1 &184528837 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5057169626082230534, guid: c9c1cef9d6006c048995ce27ccb53ca6,
-    type: 3}
-  m_PrefabInstance: {fileID: 34202425}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &184528838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184528837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 0
-  m_Area: 0
-  m_IgnoreFromBuild: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &187512090
 GameObject:
   m_ObjectHideFlags: 0
@@ -1193,9 +1171,9 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 202538486}
   m_CullTransparentMesh: 0
---- !u!1 &245411324 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5099256135887472070, guid: f50a0e7e64b2bf74891307297b5b4616,
+--- !u!4 &245411325 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5099256135887472186, guid: f50a0e7e64b2bf74891307297b5b4616,
     type: 3}
   m_PrefabInstance: {fileID: 5099256135931488314}
   m_PrefabAsset: {fileID: 0}
@@ -1723,7 +1701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aae37f5eda7eaa4d969edbb6331fd6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 245411324}
+  itemTransform: {fileID: 245411325}
   viewPosOffset: 60
 --- !u!1 &521182604 stripped
 GameObject:
@@ -4691,6 +4669,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 485703017, guid: f50a0e7e64b2bf74891307297b5b4616, type: 3}
+      propertyPath: itemTransform
+      value: 
+      objectReference: {fileID: 245411325}
     - target: {fileID: 5099256135887472070, guid: f50a0e7e64b2bf74891307297b5b4616,
         type: 3}
       propertyPath: m_Name

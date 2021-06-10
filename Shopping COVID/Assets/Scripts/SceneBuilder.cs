@@ -20,8 +20,6 @@ public class SceneBuilder : MonoBehaviour {
     [SerializeField]
     private List<GameObject> wallAssets;
     [SerializeField]
-    private List<GameObject> isleAssets;
-    [SerializeField]
     private GameObject startAsset;
     [SerializeField]
     private GameObject exitAsset;
@@ -37,6 +35,10 @@ public class SceneBuilder : MonoBehaviour {
     private List<GameObject> masks;
     [SerializeField]
     private List<GameObject> trolleys;
+    [SerializeField]
+    private List<GameObject> items;
+    [SerializeField]
+    private MoveItemPopup popupPanel;
 
     private const int EXTERIOR_MARGIN = 50;
     [Space]
@@ -61,6 +63,7 @@ public class SceneBuilder : MonoBehaviour {
 
     private int mapHeight;
     private int mapWith;
+    private List<GameObject> spawnItems;
 
     // Start is called before the first frame update
     void Start() {
@@ -101,6 +104,10 @@ public class SceneBuilder : MonoBehaviour {
         foreach (GameObject trolleyAsset in trolleyAssets) {
             DestroyImmediate(trolleyAsset);
         }
+        GameObject[] itemAssets = GameObject.FindGameObjectsWithTag("Item");
+        foreach (GameObject trolleyAsset in itemAssets) {
+            DestroyImmediate(trolleyAsset);
+        }
         GameObject[] exitAssets = GameObject.FindGameObjectsWithTag("Exit");
         foreach (GameObject exitAsset in exitAssets) {
             DestroyImmediate(exitAsset);
@@ -124,6 +131,7 @@ public class SceneBuilder : MonoBehaviour {
         //Spawn Powerups
         SpawnPowerups(levelDefinition.numberOfMaskPowerUps, masks, "Mask");
         SpawnPowerups(levelDefinition.numberOfTrolleyPowerUps, trolleys, "Trolley");
+        SpawnItems(levelDefinition.numberOfItems, items, "Item");
         LayoutPlayer();
 
         //Layout Exterior
@@ -187,20 +195,22 @@ public class SceneBuilder : MonoBehaviour {
         exitInstance.tag = "Exit";
     }
     private void LayoutIsles() {
-        GameObject isle = isleAssets[1];
-        Vector3 isleSize = isle.GetComponent<BoxCollider>().size;
+        Vector3 isleSize = Vector3.zero; //isle.GetComponent<BoxCollider>().size;
+        float maxIsleHeight = 0;
         for (float i = isleVertMargin;
-            i < mapHeight - (isleSize.x + isleVertMargin);
-            i += isleSize.x + isleVertMargin) {
-            for (float j = isleHorMargin;
-                j < mapWith - ( /*isleSize.z +*/ isleHorMargin);
-                j += isleSize.z + isleHorMargin) {
+            i < mapHeight - (maxIsleHeight + isleVertMargin);
+            i += maxIsleHeight + isleVertMargin) {
+            maxIsleHeight = 0;
+            for (float j = isleHorMargin; j < mapWith - (isleSize.z + isleHorMargin); j += isleSize.z + isleHorMargin) {
+                GameObject isle = randomize
+                    ? levelDefinition.isleAssets[Random.Range(0, levelDefinition.isleAssets.Count)]
+                    : levelDefinition.isleAssets[1];
+                isleSize = isle.GetComponent<BoxCollider>().size;
+                if (isleSize.x > maxIsleHeight) {
+                    maxIsleHeight = isleSize.x;
+                }
                 GameObject instance = Instantiate(isle, new Vector3(i, 0, j), isle.transform.rotation);
                 instance.tag = "Procedural";
-                if (randomize) {
-                    isle = isleAssets[Random.Range(0, isleAssets.Count)]; //not a good idea with different sizes...
-                    isleSize = isle.GetComponent<BoxCollider>().size;
-                }
             }
         }
     }
@@ -217,45 +227,54 @@ public class SceneBuilder : MonoBehaviour {
     }
 
     private void SpawnNPCs(int quantity, List<GameObject> prefabsList, string npcTag) {
-        for (int i = 0; i < quantity; i++) {
-            GameObject npcPrefab = prefabsList[Random.Range(0, prefabsList.Count)];
-            Vector3 position = GetNPCRandomPosition();
-            GameObject instance = Instantiate(npcPrefab, position, npcPrefab.transform.rotation);
-            instance.tag = npcTag;
-            NPCController npcController = instance.GetComponent<NPCController>();
+        List<GameObject> spawnNPCs = Spawn(quantity, prefabsList, npcTag);
+        foreach (GameObject npc in spawnNPCs) {
+            NPCController npcController = npc.GetComponent<NPCController>();
             npcController.SetMapDimensions(mapHeight, mapWith);
-
-            // if spawn inside something try to move it out
-            int maxTries = 10;
-            Collider[] colliders = new Collider[5];
-            while (Physics.OverlapSphereNonAlloc(instance.transform.position, 1.0f, colliders) > 1 && maxTries > 0) {
-                instance.transform.position = GetNPCRandomPosition();
-                maxTries--;
-            }
         }
     }
     private void SpawnPowerups(int quantity, List<GameObject> prefabsList, string powerupTag) {
+        Spawn(quantity, prefabsList, powerupTag);
+    }
+
+    private void SpawnItems(int quantity, List<GameObject> prefabsList, string itemTag) {
+        spawnItems = Spawn(quantity, prefabsList, itemTag);
+        popupPanel.itemTransform = spawnItems[0].transform;
+    }
+    private List<GameObject> Spawn(int quantity, List<GameObject> prefabsList, string tag) {
+        List<GameObject> instances = new List<GameObject>(quantity);
         for (int i = 0; i < quantity; i++) {
-            GameObject npcPrefab = prefabsList[Random.Range(0, prefabsList.Count)];
-            Vector3 position = GetNPCRandomPosition();
-            GameObject instance = Instantiate(npcPrefab, position, npcPrefab.transform.rotation);
-            instance.tag = powerupTag;
+            GameObject prefab = prefabsList[Random.Range(0, prefabsList.Count)];
+            Vector3 position = GetRandomPosition();
+            GameObject instance = Instantiate(prefab, position, prefab.transform.rotation);
+            instance.tag = tag;
+            instances.Add(instance);
 
             // if spawn inside something try to move it out
             int maxTries = 10;
             Collider[] colliders = new Collider[5];
             while (Physics.OverlapSphereNonAlloc(instance.transform.position, 1.0f, colliders) > 1 && maxTries > 0) {
-                instance.transform.position = GetNPCRandomPosition();
+                instance.transform.position = GetRandomPosition();
                 maxTries--;
             }
         }
+
+        return instances;
     }
     private void LayoutPlayer() {
         GameObject player = GameObject.FindWithTag("Player");
         player.transform.position =
             new Vector3(mapHeight - 5.5f, 1, 4.5f); //TODO FIXME: doest update position on run...
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        playerController.PickedUpItem += PickupItem;
     }
-    private Vector3 GetNPCRandomPosition() {
+    private void PickupItem(GameObject item) {
+        spawnItems.Remove(item);
+        if (spawnItems.Count > 0) {
+            popupPanel.itemTransform = spawnItems[0].transform;
+        }
+    }
+    private Vector3 GetRandomPosition() {
         return new Vector3(Random.Range(isleVertMargin, mapHeight - isleVertMargin), 1,
             Random.Range(isleHorMargin, mapWith - isleHorMargin));
     }

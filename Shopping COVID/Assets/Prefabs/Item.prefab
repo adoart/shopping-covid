@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &5099256136636739691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5099256135392022525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 202691b327ca73e43acbd4bb4387ba62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 50
+  movementY: 0.002
+  movementSpeed: 1
 --- !u!1 &5099256135887472070
 GameObject:
   m_ObjectHideFlags: 0
@@ -28,7 +43,7 @@ Transform:
   m_GameObject: {fileID: 5099256135887472070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.59, y: 2, z: 22}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.1445, y: 0.1445, z: 0.1445}
   m_Children:
   - {fileID: 5099256135917717726}
   - {fileID: 5099256135391711461}
@@ -58,7 +73,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -83,7 +97,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &5099256135887472071
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -171,22 +184,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &5099256136636739691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5099256135392022525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 202691b327ca73e43acbd4bb4387ba62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 50
-  movementY: 0.002
-  movementSpeed: 1
-  sin: 0
 --- !u!1001 &5099256135392154845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -258,11 +255,13 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 8a03905233feabd49a6be804abc3dd09, type: 3}
 --- !u!1 &5099256135392022525 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 138016, guid: 8a03905233feabd49a6be804abc3dd09, type: 3}
+  m_CorrespondingSourceObject: {fileID: 138016, guid: 8a03905233feabd49a6be804abc3dd09,
+    type: 3}
   m_PrefabInstance: {fileID: 5099256135392154845}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5099256135391711461 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 443448, guid: 8a03905233feabd49a6be804abc3dd09, type: 3}
+  m_CorrespondingSourceObject: {fileID: 443448, guid: 8a03905233feabd49a6be804abc3dd09,
+    type: 3}
   m_PrefabInstance: {fileID: 5099256135392154845}
   m_PrefabAsset: {fileID: 0}

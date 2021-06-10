@@ -17,5 +17,10 @@ MonoBehaviour:
   numberOfNPCs: 8
   numberOfMaskPowerUps: 2
   numberOfTrolleyPowerUps: 1
-  mapWith: 50
-  mapHeight: 50
+  numberOfItems: 5
+  mapWith: 90
+  mapHeight: 90
+  isleAssets:
+  - {fileID: 1909006819385972312, guid: 37f298bc16c33a1429c55ee5284e4669, type: 3}
+  - {fileID: 4170758546145023375, guid: b4ef4412edfc78f4db6898fe8fba3c19, type: 3}
+  - {fileID: 5866836718861382296, guid: 6cfccdc5d5b79ba46a5d44a54c6b476b, type: 3}
