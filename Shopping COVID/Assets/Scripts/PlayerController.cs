@@ -77,11 +77,15 @@ public class PlayerController : MonoBehaviour {
     private void OnCollisionEnter(Collision collision) {
         //Grab the Item
         if (collision.gameObject.CompareTag("Item")) {
+            Transform parent = collision.gameObject.transform.parent;
+            if (parent == null) {
+                parent = collision.transform;
+            }
             if (PickedUpItem != null) {
-                PickedUpItem(collision.gameObject);
+                PickedUpItem(parent.gameObject);
             }
             audioSource.PlayOneShot(itemPickupSound);
-            Destroy(collision.gameObject);
+            Destroy(parent.gameObject);
         }
 
         if (collision.gameObject.CompareTag("Mask")) {
@@ -93,6 +97,8 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.CompareTag("Trolley")) {
             audioSource.PlayOneShot(powerupPickupSound);
             collision.transform.parent = transform;
+            collision.transform.rotation = transform.rotation;
+            collision.transform.position = transform.position;
         }
 
         //Exit Level

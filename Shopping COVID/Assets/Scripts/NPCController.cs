@@ -44,6 +44,9 @@ public class NPCController : MonoBehaviour {
         if (gameManager != null && gameManager.IsGameActive) {
             Debug.Log("NPC Infected!!!");
             GameObject enemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
+            if (enemy.transform.childCount == 1) {
+                enemy.transform.GetChild(0).gameObject.SetActive(false);
+            }
             assetModel.transform.parent = enemy.transform;
             Destroy(gameObject);
         }

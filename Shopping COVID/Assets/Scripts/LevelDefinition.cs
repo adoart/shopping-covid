@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Custom/Level Definition", fileName = "NewLevelDefinition")]
+[CreateAssetMenu(menuName = "Levels/Level Definition", fileName = "NewLevelDefinition")]
 public class LevelDefinition : ScriptableObject {
     public string levelName;
     public int numberOfEnemies;

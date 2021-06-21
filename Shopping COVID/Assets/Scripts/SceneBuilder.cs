@@ -12,6 +12,8 @@ public class SceneBuilder : MonoBehaviour {
     private float isleHorMargin = 4;
     [SerializeField]
     private LevelDefinition levelDefinition;
+    [SerializeField]
+    private GameManager gameManager;
 
     [Space]
     [Header("Interior")]
@@ -37,8 +39,9 @@ public class SceneBuilder : MonoBehaviour {
     private List<GameObject> trolleys;
     [SerializeField]
     private List<GameObject> items;
+
     [SerializeField]
-    private MoveItemPopup popupPanel;
+    private List<ItemPickUps_SO> items_SO;
 
     private const int EXTERIOR_MARGIN = 50;
     [Space]
@@ -63,7 +66,6 @@ public class SceneBuilder : MonoBehaviour {
 
     private int mapHeight;
     private int mapWith;
-    private List<GameObject> spawnItems;
 
     // Start is called before the first frame update
     void Start() {
@@ -238,8 +240,44 @@ public class SceneBuilder : MonoBehaviour {
     }
 
     private void SpawnItems(int quantity, List<GameObject> prefabsList, string itemTag) {
-        spawnItems = Spawn(quantity, prefabsList, itemTag);
-        popupPanel.itemTransform = spawnItems[0].transform;
+        // gameManager.SetSpawnedItems(Spawn(quantity, prefabsList, itemTag));
+        gameManager.SetSpawnedItems(SpawnItems_SO(quantity, items_SO));
+    }
+
+    private List<GameObject> SpawnItems_SO(int quantity, List<ItemPickUps_SO> prefabsList) {
+        List<GameObject> instances = new List<GameObject>(quantity);
+
+        for (int i = 0; i < quantity; i++) {
+            ItemPickUps_SO prefab = prefabsList[Random.Range(0, prefabsList.Count)];
+            GameObject emptyGameObject = new GameObject(prefab.itemName);
+            Vector3 position = GetRandomPosition();
+            GameObject instance = Instantiate(emptyGameObject, position, prefab.itemSpawnObject.transform.rotation);
+            GameObject item = Instantiate(prefab.itemSpawnObject, instance.transform);
+            item.AddComponent<ItemAnimation>();
+
+            instance.tag = prefab.itemTag;
+            item.tag = prefab.itemTag;
+
+            // if spawn inside something try to move it out
+            int maxTries = 10;
+            Collider[] colliders = new Collider[5];
+            while (Physics.OverlapSphereNonAlloc(instance.transform.position, 1.0f, colliders) > 1 && maxTries > 0) {
+                instance.transform.position = GetRandomPosition();
+                maxTries--;
+            }
+
+            //add camera at final position
+            if (prefab.itemCameraObject != null) {
+                GameObject itemCamera = Instantiate(prefab.itemCameraObject, instance.transform);
+                itemCamera.SetActive(false);
+            }
+            instances.Add(instance);
+
+            DestroyImmediate(emptyGameObject);
+        }
+
+        instances[0].transform.GetChild(1).gameObject.SetActive(true);
+        return instances;
     }
     private List<GameObject> Spawn(int quantity, List<GameObject> prefabsList, string tag) {
         List<GameObject> instances = new List<GameObject>(quantity);
@@ -266,13 +304,6 @@ public class SceneBuilder : MonoBehaviour {
         player.transform.position =
             new Vector3(mapHeight - 5.5f, 1, 4.5f); //TODO FIXME: doest update position on run...
         PlayerController playerController = player.GetComponent<PlayerController>();
-        playerController.PickedUpItem += PickupItem;
-    }
-    private void PickupItem(GameObject item) {
-        spawnItems.Remove(item);
-        if (spawnItems.Count > 0) {
-            popupPanel.itemTransform = spawnItems[0].transform;
-        }
     }
     private Vector3 GetRandomPosition() {
         return new Vector3(Random.Range(isleVertMargin, mapHeight - isleVertMargin), 1,
