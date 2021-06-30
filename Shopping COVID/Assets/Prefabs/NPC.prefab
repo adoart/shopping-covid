@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1928710853055753250}
   - component: {fileID: 738560863}
   - component: {fileID: 6056598905021808151}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
@@ -59,6 +59,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -70,6 +71,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -134,6 +136,7 @@ MonoBehaviour:
   range: 22
   enemyPrefab: {fileID: 5545449340215778735, guid: e8c8bb77afd9e3144b3056494ff8316e,
     type: 3}
+  assetModel: {fileID: 0}
 --- !u!54 &738560863
 Rigidbody:
   m_ObjectHideFlags: 0

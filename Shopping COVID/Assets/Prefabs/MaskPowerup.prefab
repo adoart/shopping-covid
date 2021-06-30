@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4743989689220407021}
   - component: {fileID: 4743989689220407022}
-  - component: {fileID: 4743989689220407023}
   - component: {fileID: 4743989689220407016}
   - component: {fileID: 1441491397}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: MaskPowerup
   m_TagString: Mask
   m_Icon: {fileID: 0}
@@ -43,45 +42,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4743989689220407017}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4743989689220407023
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4743989689220407017}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a9a6125029c7a5e49a7b8246ab049859, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!65 &4743989689220407016
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -119,7 +79,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4743989689226365313}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +112,7 @@ GameObject:
   - component: {fileID: 4743989689729663530}
   - component: {fileID: 4743989689729663528}
   - component: {fileID: 4743989689729663529}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}

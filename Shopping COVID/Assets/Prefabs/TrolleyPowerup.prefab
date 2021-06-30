@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6954684259162975334}
   - component: {fileID: 6954684259162975333}
-  - component: {fileID: 6954684259162975332}
   - component: {fileID: 6954684259162975331}
   - component: {fileID: 4657476375961530409}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: TrolleyPowerup
   m_TagString: Trolley
   m_Icon: {fileID: 0}
@@ -29,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6954684259162975330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -19, y: 1, z: -21}
-  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3899635966537876656}
   m_Father: {fileID: 0}
@@ -43,45 +42,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6954684259162975330}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &6954684259162975332
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6954684259162975330}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a9a6125029c7a5e49a7b8246ab049859, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!65 &6954684259162975331
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93,8 +53,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.2815018, z: 1}
-  m_Center: {x: 0.041768074, y: 0.14075089, z: 0}
+  m_Size: {x: 1, y: 1.5, z: 2.25}
+  m_Center: {x: 0, y: 0, z: 1.5}
 --- !u!208 &4657476375961530409
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -105,11 +65,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Extents: {x: 0.5, y: 0.75, z: 1.125}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: 1.5}
   m_TimeToStationary: 0.5
 --- !u!1001 &3899635966537977210
 PrefabInstance:
@@ -123,6 +83,10 @@ PrefabInstance:
       value: SI_Prop_ShoppingTrolley_02
       objectReference: {fileID: 0}
     - target: {fileID: 176550, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 176550, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_TagString
       value: Trolley
       objectReference: {fileID: 0}
@@ -132,31 +96,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.81091
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.70892096
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.033
-      objectReference: {fileID: 0}
-    - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.509
-      objectReference: {fileID: 0}
-    - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalRotation.x
@@ -164,11 +128,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -176,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 270
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 428490, guid: 3a3b1b78eeeb09d438b66594a7e3a5d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

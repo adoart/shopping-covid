@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour {
     private bool isGameActive;
@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject gameoverScreen;
     [SerializeField] private GameObject forgotTextBubble;
+    [SerializeField] private MoveItemPopup popupPanel;
     [SerializeField] private LifeBarController lifeBarController;
 
     private AudioSource audioSource;
@@ -18,7 +19,18 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private int lifes = 3;
     private PlayerController player;
-    public bool hasItem = false;
+    [FormerlySerializedAs("hasItem")]
+    public bool hasAllItems = false;
+
+    private List<GameObject> spawnedItems;
+
+    private void Awake() {
+#if UNITY_EDITOR //Disable all logging on release builds.
+        Debug.unityLogger.logEnabled = true;
+#else
+        Debug.unityLogger.logEnabled = true;
+#endif
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -27,24 +39,32 @@ public class GameManager : MonoBehaviour {
         player.HitByEnemy += DecreaseLife;
         player.PickedUpItem += PickupItem;
         player.TriedToExit += TryToExit;
+        spawnedItems = new List<GameObject>();
         StartGame();
     }
     private void TryToExit() {
-        if (hasItem) {
+        if (hasAllItems) {
             Win();
         } else {
             StartCoroutine(ForgotCountdownCoroutine());
         }
     }
-    
+
     IEnumerator ForgotCountdownCoroutine() {
         forgotTextBubble.SetActive(true);
         yield return new WaitForSeconds(7);
         forgotTextBubble.SetActive(false);
     }
-    
-    private void PickupItem() {
-        hasItem = true;
+
+    private void PickupItem(GameObject item) {
+        if (spawnedItems.Count > 0) {
+            spawnedItems.Remove(item);
+            if (spawnedItems.Count > 0) {
+                spawnedItems[0].transform.GetChild(1).gameObject.SetActive(true);
+                popupPanel.itemTransform = spawnedItems[0].transform;
+            }
+        }
+        hasAllItems = spawnedItems.Count == 0;
     }
 
     public void StartGame() {
@@ -65,8 +85,7 @@ public class GameManager : MonoBehaviour {
         ResetGame();
     }
 
-    public bool IsGameActive
-    {
+    public bool IsGameActive {
         get => isGameActive;
     }
 
@@ -75,8 +94,8 @@ public class GameManager : MonoBehaviour {
         if (isGameActive) {
             if (lifes > 0) {
                 lifes--;
-            } 
-            
+            }
+
             if (lifes <= 0) {
                 GameOver();
             }
@@ -95,5 +114,10 @@ public class GameManager : MonoBehaviour {
         audioSource.PlayOneShot(winSound);
         isGameActive = false;
         winScreen.SetActive(true);
+    }
+    public void SetSpawnedItems(List<GameObject> spawnedItems) {
+        this.spawnedItems = spawnedItems;
+        this.spawnedItems[0].SetActive(true);
+        popupPanel.itemTransform = this.spawnedItems[0].transform;
     }
 }
