@@ -96,9 +96,10 @@ public class PlayerController : MonoBehaviour {
 
         if (collision.gameObject.CompareTag("Trolley")) {
             audioSource.PlayOneShot(powerupPickupSound);
-            collision.transform.parent = transform;
-            collision.transform.rotation = transform.rotation;
-            collision.transform.position = transform.position;
+            var trans = transform;
+            collision.transform.parent = trans;
+            collision.transform.rotation = trans.rotation;
+            collision.transform.position = trans.position;
         }
 
         //Exit Level
