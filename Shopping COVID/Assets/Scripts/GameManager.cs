@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject forgotTextBubble;
     [SerializeField] private MoveItemPopup popupPanel;
     [SerializeField] private LifeBarController lifeBarController;
+    [SerializeField] private LevelLoader levelLoader;
 
     private AudioSource audioSource;
     [SerializeField] private AudioClip gameoverSound;
@@ -77,6 +78,11 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
+    public void NextLevel() {
+        //Load next level
+        levelLoader.LoadNextLevel();
+    }
+
     public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -85,7 +91,8 @@ public class GameManager : MonoBehaviour {
         ResetGame();
     }
 
-    public bool IsGameActive {
+    public bool IsGameActive
+    {
         get => isGameActive;
     }
 
