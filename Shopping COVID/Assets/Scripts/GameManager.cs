@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private MoveItemPopup popupPanel;
     [SerializeField] private LifeBarController lifeBarController;
     [SerializeField] private LevelLoader levelLoader;
+    [SerializeField] private SceneBuilder sceneBuilder;
 
     private AudioSource audioSource;
     [SerializeField] private AudioClip gameoverSound;
@@ -81,6 +82,13 @@ public class GameManager : MonoBehaviour {
     public void NextLevel() {
         //Load next level
         levelLoader.LoadNextLevel();
+    }
+
+    public void NextProceduralLevel() {
+        //Load next LevelDefinition and generate procedural level
+        levelLoader.FadeOut();
+        sceneBuilder.SetNextLevel();
+        sceneBuilder.UpdateMap();
     }
 
     public void RestartGame() {

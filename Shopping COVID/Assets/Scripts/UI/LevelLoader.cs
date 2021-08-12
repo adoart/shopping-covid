@@ -10,10 +10,23 @@ public class LevelLoader : MonoBehaviour {
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
+    public void FadeOut() {
+        //Play animation
+        transition.SetTrigger("End");
+        //Reload same Scene, reset state (for procedural levels)
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex));
+    }
+
+    public void FadeIn() {
+        //Reload same Scene (for procedural levels)
+        //Play animation
+        transition.SetTrigger("Start");
+    }
+
     IEnumerator LoadLevel(int levelIndex) {
         //Play animation
         transition.SetTrigger("Start");
-        
+
         //Wait
         yield return new WaitForSeconds(transitionTime);
 
