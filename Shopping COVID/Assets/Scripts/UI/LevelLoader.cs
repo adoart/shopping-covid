@@ -11,8 +11,6 @@ public class LevelLoader : MonoBehaviour {
     }
 
     public void FadeOut() {
-        //Play animation
-        transition.SetTrigger("End");
         //Reload same Scene, reset state (for procedural levels)
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex));
     }

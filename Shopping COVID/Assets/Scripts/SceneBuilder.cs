@@ -83,6 +83,10 @@ public class SceneBuilder : MonoBehaviour {
         currentLevelDefinition = levelDefinitions[LevelDefinitionHelper.SetNextLevelIndex()];
     }
 
+    public bool HasNextLevel() {
+        return LevelDefinitionHelper.GetCurrentLevelIndex() < levelDefinitions.Count - 1;
+    }
+
     public void UpdateMap() {
         ClearMap();
         BuildMap();

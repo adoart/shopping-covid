@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     private bool isGameActive;
     [SerializeField] private GameObject titleScreen;
     [SerializeField] private GameObject winScreen;
+    [SerializeField] private GameObject nextLevelButton;
     [SerializeField] private GameObject gameoverScreen;
     [SerializeField] private GameObject forgotTextBubble;
     [SerializeField] private MoveItemPopup popupPanel;
@@ -85,9 +86,18 @@ public class GameManager : MonoBehaviour {
     }
 
     public void NextProceduralLevel() {
+        StartCoroutine(LoadProceduralLevel());
+    }
+
+    IEnumerator LoadProceduralLevel() {
         //Load next LevelDefinition and generate procedural level
         levelLoader.FadeOut();
         sceneBuilder.SetNextLevel();
+
+        //Wait
+        yield return new WaitForSeconds(levelLoader.transitionTime);
+
+        //Load scene
         sceneBuilder.UpdateMap();
     }
 
@@ -129,6 +139,9 @@ public class GameManager : MonoBehaviour {
         audioSource.PlayOneShot(winSound);
         isGameActive = false;
         winScreen.SetActive(true);
+        if (!sceneBuilder.HasNextLevel()) {
+            nextLevelButton.SetActive(false);
+        }
     }
     public void SetSpawnedItems(List<GameObject> spawnedItems) {
         this.spawnedItems = spawnedItems;
