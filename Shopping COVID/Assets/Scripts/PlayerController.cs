@@ -49,6 +49,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public void Warp(Vector3 position) {
+        agent.Warp(position);
+    }
+
     public void LooseLife() {
         if (HitByEnemy != null && !hasMask) {
             HitByEnemy();

@@ -313,9 +313,8 @@ public class SceneBuilder : MonoBehaviour {
     }
     private void LayoutPlayer() {
         GameObject player = GameObject.FindWithTag("Player");
-        player.transform.position =
-            new Vector3(mapHeight - 5.5f, 1, 4.5f); //TODO FIXME: doest update position on run...
         PlayerController playerController = player.GetComponent<PlayerController>();
+        playerController.Warp(new Vector3(mapHeight - 5.5f, 1, 4.5f));
     }
     private Vector3 GetRandomPosition() {
         return new Vector3(Random.Range(isleVertMargin, mapHeight - isleVertMargin), 1,
