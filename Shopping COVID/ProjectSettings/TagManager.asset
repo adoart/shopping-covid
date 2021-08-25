@@ -10,6 +10,8 @@ TagManager:
   - Item
   - Trolley
   - Singleton
+  - Procedural
+  - Enemy
   layers:
   - Default
   - TransparentFX

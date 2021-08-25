@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934a3d097de854942b27210a7e914fc5, type: 3}
+  m_Name: DiapersDefinition
+  m_EditorClassIdentifier: 
+  itemName: Diapers
+  itemTag: Item
+  itemType: 0
+  itemSubType: 0
+  itemAmount: 1
+  spawnChanceWeight: 10
+  itemMaterial: {fileID: 0}
+  itemIcon: {fileID: 0}
+  itemSpawnObject: {fileID: 1276007806017888005, guid: 9552f97f22e428b43a590e64ab66af5f,
+    type: 3}
+  itemCameraObject: {fileID: 3946500243975827485, guid: 7de783e37bbfe31499c3bc8306c74411,
+    type: 3}
+  itemAnimationScript: {fileID: 0}
+  isEquipped: 0
+  isInteractable: 0
+  isStorable: 1
+  isQuestItem: 1
+  isStackable: 0
+  destroyOnUse: 1

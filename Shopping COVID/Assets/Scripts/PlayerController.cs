@@ -5,9 +5,13 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour {
     #region Events
+
     public event Action HitByEnemy;
-    public event Action PickedUpItem;
+
+    public event Action<GameObject> PickedUpItem;
+
     public event Action TriedToExit;
+
     #endregion
 
     public Camera cam;
@@ -28,6 +32,7 @@ public class PlayerController : MonoBehaviour {
         playerAnimator = GetComponentInChildren<Animator>();
         gameManager = FindObjectOfType<GameManager>();
         powerupIndicator.SetActive(false);
+
     }
     // Update is called once per frame
     void Update() {
@@ -72,11 +77,15 @@ public class PlayerController : MonoBehaviour {
     private void OnCollisionEnter(Collision collision) {
         //Grab the Item
         if (collision.gameObject.CompareTag("Item")) {
+            Transform parent = collision.gameObject.transform.parent;
+            if (parent == null) {
+                parent = collision.transform;
+            }
             if (PickedUpItem != null) {
-                PickedUpItem();
+                PickedUpItem(parent.gameObject);
             }
             audioSource.PlayOneShot(itemPickupSound);
-            Destroy(collision.gameObject);
+            Destroy(parent.gameObject);
         }
 
         if (collision.gameObject.CompareTag("Mask")) {
@@ -87,7 +96,10 @@ public class PlayerController : MonoBehaviour {
 
         if (collision.gameObject.CompareTag("Trolley")) {
             audioSource.PlayOneShot(powerupPickupSound);
-            collision.transform.parent = transform;
+            var trans = transform;
+            collision.transform.parent = trans;
+            collision.transform.rotation = trans.rotation;
+            collision.transform.position = trans.position;
         }
 
         //Exit Level
