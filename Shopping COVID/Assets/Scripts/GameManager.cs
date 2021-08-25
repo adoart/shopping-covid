@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour {
         audioSource.PlayOneShot(winSound);
         isGameActive = false;
         winScreen.SetActive(true);
-        if (!sceneBuilder.HasNextLevel()) {
+        if (sceneBuilder != null && !sceneBuilder.HasNextLevel()) {
             nextLevelButton.SetActive(false);
         }
     }
