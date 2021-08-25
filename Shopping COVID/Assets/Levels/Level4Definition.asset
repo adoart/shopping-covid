@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5568c672922c4ad4abb01805ec51feba, type: 3}
-  m_Name: Level2Definition
+  m_Name: Level4Definition
   m_EditorClassIdentifier: 
-  levelName: Level 2
-  numberOfEnemies: 1
-  numberOfNPCs: 4
+  levelName: Level 4
+  numberOfEnemies: 4
+  numberOfNPCs: 12
   numberOfMaskPowerUps: 2
   numberOfTrolleyPowerUps: 1
-  numberOfItems: 2
-  mapWith: 50
-  mapHeight: 50
+  numberOfItems: 8
+  mapWith: 90
+  mapHeight: 90
   isleAssets:
   - {fileID: 1909006819385972312, guid: 37f298bc16c33a1429c55ee5284e4669, type: 3}
   - {fileID: 4170758546145023375, guid: b4ef4412edfc78f4db6898fe8fba3c19, type: 3}

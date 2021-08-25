@@ -8,10 +8,13 @@ public class GameManager : MonoBehaviour {
     private bool isGameActive;
     [SerializeField] private GameObject titleScreen;
     [SerializeField] private GameObject winScreen;
+    [SerializeField] private GameObject nextLevelButton;
     [SerializeField] private GameObject gameoverScreen;
     [SerializeField] private GameObject forgotTextBubble;
     [SerializeField] private MoveItemPopup popupPanel;
     [SerializeField] private LifeBarController lifeBarController;
+    [SerializeField] private LevelLoader levelLoader;
+    [SerializeField] private SceneBuilder sceneBuilder;
 
     private AudioSource audioSource;
     [SerializeField] private AudioClip gameoverSound;
@@ -77,6 +80,27 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
+    public void NextLevel() {
+        //Load next level
+        levelLoader.LoadNextLevel();
+    }
+
+    public void NextProceduralLevel() {
+        StartCoroutine(LoadProceduralLevel());
+    }
+
+    IEnumerator LoadProceduralLevel() {
+        //Load next LevelDefinition and generate procedural level
+        levelLoader.FadeOut();
+        sceneBuilder.SetNextLevel();
+
+        //Wait
+        yield return new WaitForSeconds(levelLoader.transitionTime);
+
+        //Load scene
+        sceneBuilder.UpdateMap();
+    }
+
     public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -85,7 +109,8 @@ public class GameManager : MonoBehaviour {
         ResetGame();
     }
 
-    public bool IsGameActive {
+    public bool IsGameActive
+    {
         get => isGameActive;
     }
 
@@ -114,6 +139,9 @@ public class GameManager : MonoBehaviour {
         audioSource.PlayOneShot(winSound);
         isGameActive = false;
         winScreen.SetActive(true);
+        if (!sceneBuilder.HasNextLevel()) {
+            nextLevelButton.SetActive(false);
+        }
     }
     public void SetSpawnedItems(List<GameObject> spawnedItems) {
         this.spawnedItems = spawnedItems;

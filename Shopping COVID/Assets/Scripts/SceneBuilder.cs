@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -10,8 +11,13 @@ public class SceneBuilder : MonoBehaviour {
     [FormerlySerializedAs("ISLE_HOR_MARGIN")]
     [SerializeField]
     private float isleHorMargin = 4;
+
+    private int currentLevelDefinitionIndex;
     [SerializeField]
-    private LevelDefinition levelDefinition;
+    private List<LevelDefinition> levelDefinitions;
+    [FormerlySerializedAs("levelDefinition")]
+    [SerializeField]
+    private LevelDefinition currentLevelDefinition;
     [SerializeField]
     private GameManager gameManager;
 
@@ -69,7 +75,16 @@ public class SceneBuilder : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        currentLevelDefinition = levelDefinitions[LevelDefinitionHelper.GetCurrentLevelIndex()];
         UpdateMap();
+    }
+
+    public void SetNextLevel() {
+        currentLevelDefinition = levelDefinitions[LevelDefinitionHelper.SetNextLevelIndex()];
+    }
+
+    public bool HasNextLevel() {
+        return LevelDefinitionHelper.GetCurrentLevelIndex() < levelDefinitions.Count - 1;
     }
 
     public void UpdateMap() {
@@ -117,8 +132,8 @@ public class SceneBuilder : MonoBehaviour {
     }
 
     public void BuildMap() {
-        mapHeight = levelDefinition.mapHeight;
-        mapWith = levelDefinition.mapWith;
+        mapHeight = currentLevelDefinition.mapHeight;
+        mapWith = currentLevelDefinition.mapWith;
         //Layout floor
         LayoutFloor();
         //Layout walls stalls
@@ -128,12 +143,12 @@ public class SceneBuilder : MonoBehaviour {
         //Layout Start & Exit
         LayoutStartExitPlayer();
         //Spawn NPCs
-        SpawnNPCs(levelDefinition.numberOfNPCs, npcs, "NPC");
-        SpawnNPCs(levelDefinition.numberOfEnemies, enemies, "Enemy");
+        SpawnNPCs(currentLevelDefinition.numberOfNPCs, npcs, "NPC");
+        SpawnNPCs(currentLevelDefinition.numberOfEnemies, enemies, "Enemy");
         //Spawn Powerups
-        SpawnPowerups(levelDefinition.numberOfMaskPowerUps, masks, "Mask");
-        SpawnPowerups(levelDefinition.numberOfTrolleyPowerUps, trolleys, "Trolley");
-        SpawnItems(levelDefinition.numberOfItems, items, "Item");
+        SpawnPowerups(currentLevelDefinition.numberOfMaskPowerUps, masks, "Mask");
+        SpawnPowerups(currentLevelDefinition.numberOfTrolleyPowerUps, trolleys, "Trolley");
+        SpawnItems(currentLevelDefinition.numberOfItems, items, "Item");
         LayoutPlayer();
 
         //Layout Exterior
@@ -184,7 +199,8 @@ public class SceneBuilder : MonoBehaviour {
         Vector3 invisibleWallSize = invisibleWall.GetComponent<BoxCollider>().size;
         for (float j = 0;
             j < (mapWith - invisibleWallSize.x * 2);
-            j += invisibleWallSize.x) { //leave one blank space to place the "Exit" wall
+            j += invisibleWallSize.x) {
+            //leave one blank space to place the "Exit" wall
             GameObject instance =
                 Instantiate(invisibleWall, new Vector3(mapHeight - 4, 2, j + 4),
                     invisibleWall.transform.rotation);
@@ -205,8 +221,8 @@ public class SceneBuilder : MonoBehaviour {
             maxIsleHeight = 0;
             for (float j = isleHorMargin; j < mapWith - (isleSize.z + isleHorMargin); j += isleSize.z + isleHorMargin) {
                 GameObject isle = randomize
-                    ? levelDefinition.isleAssets[Random.Range(0, levelDefinition.isleAssets.Count)]
-                    : levelDefinition.isleAssets[1];
+                    ? currentLevelDefinition.isleAssets[Random.Range(0, currentLevelDefinition.isleAssets.Count)]
+                    : currentLevelDefinition.isleAssets[1];
                 isleSize = isle.GetComponent<BoxCollider>().size;
                 if (isleSize.x > maxIsleHeight) {
                     maxIsleHeight = isleSize.x;
@@ -301,9 +317,8 @@ public class SceneBuilder : MonoBehaviour {
     }
     private void LayoutPlayer() {
         GameObject player = GameObject.FindWithTag("Player");
-        player.transform.position =
-            new Vector3(mapHeight - 5.5f, 1, 4.5f); //TODO FIXME: doest update position on run...
         PlayerController playerController = player.GetComponent<PlayerController>();
+        playerController.Warp(new Vector3(mapHeight - 5.5f, 1, 4.5f));
     }
     private Vector3 GetRandomPosition() {
         return new Vector3(Random.Range(isleVertMargin, mapHeight - isleVertMargin), 1,
