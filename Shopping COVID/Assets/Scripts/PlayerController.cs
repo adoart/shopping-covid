@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     private Animator playerAnimator;
     private GameManager gameManager;
     private AudioSource audioSource;
+    [SerializeField] private GameObject destinationIndicator;
     [SerializeField] private GameObject powerupIndicator;
     [SerializeField] private AudioClip powerupPickupSound;
     [SerializeField] private AudioClip itemPickupSound;
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour {
         playerAnimator = GetComponentInChildren<Animator>();
         gameManager = FindObjectOfType<GameManager>();
         powerupIndicator.SetActive(false);
-
+        destinationIndicator.SetActive(false);
     }
     // Update is called once per frame
     void Update() {
@@ -65,8 +66,13 @@ public class PlayerController : MonoBehaviour {
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit)) {
+                destinationIndicator.SetActive(true);
                 agent.SetDestination(hit.point);
+                destinationIndicator.transform.position = new Vector3(hit.point.x, 0.2f, hit.point.z);
             }
+        }
+        if (!agent.hasPath && !agent.pathPending) {
+            destinationIndicator.SetActive(false);
         }
     }
 
