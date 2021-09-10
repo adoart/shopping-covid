@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-public class Enemy : NPCController
-{
+public class Enemy : NPCController {
     private void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.CompareTag("Player")) {
+        if (collision.collider.gameObject.CompareTag("Player")) {
             Debug.Log("Collided with Player!!!");
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.LooseLife();
