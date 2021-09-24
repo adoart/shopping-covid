@@ -1708,6 +1708,7 @@ GameObject:
   - component: {fileID: 183462116}
   - component: {fileID: 183462115}
   - component: {fileID: 183462114}
+  - component: {fileID: 183462117}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -1753,7 +1754,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 0.43529415, g: 0.078431375, b: 0.003921569, a: 0}
     m_HighlightedColor: {r: 0.43529415, g: 0.078431375, b: 0.003921569, a: 0.3019608}
@@ -1796,7 +1797,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 183462112}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1826,6 +1827,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 183462112}
   m_CullTransparentMesh: 0
+--- !u!95 &183462117
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183462112}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3074e0057a28de1458b2cc66040dbf29, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &187512090
 GameObject:
   m_ObjectHideFlags: 0
@@ -9914,6 +9934,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CrossfadeImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444686969036654824, guid: 451516e904fe325419a62d3f47aaaadf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2444686969036654825, guid: 451516e904fe325419a62d3f47aaaadf,
         type: 3}
