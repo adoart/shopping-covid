@@ -105,6 +105,10 @@ public class SceneBuilder : MonoBehaviour {
         foreach (GameObject mapAsset in mapAssets) {
             DestroyImmediate(mapAsset);
         }
+        GameObject[] shelfAssets = GameObject.FindGameObjectsWithTag("Shelf");
+        foreach (GameObject shelfAsset in shelfAssets) {
+            DestroyImmediate(shelfAsset);
+        }
         GameObject[] npcAssets = GameObject.FindGameObjectsWithTag("NPC");
         foreach (GameObject npcAsset in npcAssets) {
             DestroyImmediate(npcAsset);
@@ -163,7 +167,7 @@ public class SceneBuilder : MonoBehaviour {
     }
     private void LayoutFloor() {
         GameObject floor = floorAssets[Random.Range(0, floorAssets.Count)];
-        Vector3 floorSize = new Vector3(5, 0, 5); //TODO floor tiles are always 5x5 
+        Vector3 floorSize = new Vector3(5, 0, 5);
         for (float i = 0; i <= (mapHeight - floorSize.x); i += floorSize.x) {
             for (float j = 0; j < mapWith; j += floorSize.z) {
                 GameObject instance = Instantiate(floor, new Vector3(i, 0, j), floor.transform.rotation);
@@ -178,21 +182,21 @@ public class SceneBuilder : MonoBehaviour {
         for (float j = 0; j < (mapWith - wallSize.x); j += wallSize.x) {
             GameObject instance = Instantiate(wall, new Vector3(-2.75f, 0, j + 1),
                 Quaternion.AngleAxis(90, Vector3.up));
-            instance.tag = "Procedural";
+            instance.tag = "Shelf";
         }
 
         //left wall
         for (float i = 0; i < (mapHeight - wallSize.x); i += wallSize.x) {
             GameObject instance = Instantiate(wall, new Vector3(i + 5, 0, 1),
                 wall.transform.rotation);
-            instance.tag = "Procedural";
+            instance.tag = "Shelf";
         }
 
         //right wall
         for (float i = 0; i < (mapHeight - wallSize.x); i += wallSize.x) {
             GameObject instance = Instantiate(wall, new Vector3(i - 2.75f, 0, (mapWith) - 1),
                 Quaternion.AngleAxis(180, Vector3.up));
-            instance.tag = "Procedural";
+            instance.tag = "Shelf";
         }
 
         //bottom wall
@@ -228,7 +232,7 @@ public class SceneBuilder : MonoBehaviour {
                     maxIsleHeight = isleSize.x;
                 }
                 GameObject instance = Instantiate(isle, new Vector3(i, 0, j), isle.transform.rotation);
-                instance.tag = "Procedural";
+                instance.tag = "Shelf";
             }
         }
     }
