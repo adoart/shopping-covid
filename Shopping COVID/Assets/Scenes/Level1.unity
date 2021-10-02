@@ -7660,6 +7660,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1108851230557257223, guid: 3f3322b19c702824dba3120eb3333adc,
+        type: 3}
+      propertyPath: m_Acceleration
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1108851230557257241, guid: 3f3322b19c702824dba3120eb3333adc,
         type: 3}
       propertyPath: m_RootOrder
@@ -8454,6 +8459,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
       value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 1890780322860369730, guid: 3f3322b19c702824dba3120eb3333adc,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1901435229145672168, guid: 3f3322b19c702824dba3120eb3333adc,
         type: 3}
