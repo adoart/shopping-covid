@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     private Animator playerAnimator;
     private GameManager gameManager;
     private AudioSource audioSource;
+    private ParticleSystem particleSystem;
     [SerializeField] private GameObject destinationIndicator;
     [SerializeField] private GameObject powerupIndicator;
     [SerializeField] private AudioClip powerupPickupSound;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour {
     void Start() {
         audioSource = GetComponent<AudioSource>();
         playerAnimator = GetComponentInChildren<Animator>();
+        particleSystem = GetComponent<ParticleSystem>();
         gameManager = FindObjectOfType<GameManager>();
         powerupIndicator.SetActive(false);
         destinationIndicator.SetActive(false);
@@ -117,6 +119,14 @@ public class PlayerController : MonoBehaviour {
             if (TriedToExit != null) {
                 TriedToExit();
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.CompareTag("Shelf")) {
+            Debug.Log("Bumped Shelf!!!");
+
+            particleSystem.Play();
         }
     }
 }
