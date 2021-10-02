@@ -66,6 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   agent: {fileID: 1108851230557257223}
+  destinationIndicator: {fileID: 0}
   powerupIndicator: {fileID: 1109397859128661899}
   powerupPickupSound: {fileID: 8300000, guid: 48772399db672a1498de6d4a1ed9ed04, type: 3}
   itemPickupSound: {fileID: 8300000, guid: 75f2088bda0e19942bbc0b96558e096a, type: 3}
@@ -97,7 +98,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.4
-  m_Speed: 4
+  m_Speed: 6
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 90
@@ -215,7 +216,7 @@ Animator:
   m_GameObject: {fileID: 1108851230557257222}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c72c97e952bf7834b85e6164373d310d, type: 3}
-  m_Controller: {fileID: 9100000, guid: d38460ce198a10245be15ecbf064c1f8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8983b5a03c2c80f4c84ed879f47b5984, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
