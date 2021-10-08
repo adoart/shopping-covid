@@ -12,6 +12,7 @@ TagManager:
   - Singleton
   - Procedural
   - Enemy
+  - Water
   layers:
   - Default
   - TransparentFX

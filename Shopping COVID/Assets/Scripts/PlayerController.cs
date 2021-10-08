@@ -25,8 +25,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private AudioClip itemPickupSound;
     [SerializeField] private GameObject forgotTextBubble;
     [SerializeField] private Vector3 forgotBubbleOffset;
+    [SerializeField] private float slipSpeed = 0.1f;
 
     private bool hasMask;
+    private bool isSlipping;
 
     void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -43,7 +45,6 @@ public class PlayerController : MonoBehaviour {
         //Update animator speed to control animation.
         playerAnimator.SetFloat("Speed_f", agent.velocity.magnitude);
     }
-
     private void UpdateForgotBubblePosition() {
         if (forgotTextBubble) {
             forgotTextBubble.transform.position = cam.WorldToScreenPoint(transform.position + forgotBubbleOffset);
@@ -61,7 +62,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void MouseMovePlayer() {
-        if (Input.GetMouseButtonDown(0) && gameManager != null && gameManager.IsGameActive) {
+        Debug.DrawLine(transform.position, transform.position + agent.velocity, Color.red);
+        if (isSlipping) {
+            destinationIndicator.SetActive(false);
+            agent.ResetPath();
+            agent.velocity = agent.velocity * slipSpeed;
+        }
+
+        if (Input.GetMouseButtonDown(0) && gameManager != null && gameManager.IsGameActive /*&& !isSlipping*/) {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -117,6 +125,20 @@ public class PlayerController : MonoBehaviour {
             if (TriedToExit != null) {
                 TriedToExit();
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.CompareTag("Water")) {
+            isSlipping = true;
+            playerAnimator.SetBool("Slipping_b", true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject.CompareTag("Water")) {
+            isSlipping = false;
+            playerAnimator.SetBool("Slipping_b", false);
         }
     }
 }
