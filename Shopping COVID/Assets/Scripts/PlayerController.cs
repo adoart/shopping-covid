@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour {
             agent.velocity = agent.velocity * slipSpeed;
         }
 
-        if (Input.GetMouseButtonDown(0) && gameManager != null && gameManager.IsGameActive /*&& !isSlipping*/) {
+        if (Input.GetMouseButtonDown(0) && gameManager != null && gameManager.IsGameActive) {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
