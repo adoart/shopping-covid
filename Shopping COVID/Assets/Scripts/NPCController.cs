@@ -76,6 +76,7 @@ public class NPCController : MonoBehaviour {
         this.mapWidth = mapWidth;
     }
     public void Scare() {
+        Debug.Log("Coughing Scared!!!");
         StartCoroutine(RunScared());
     }
 }

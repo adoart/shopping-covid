@@ -33,19 +33,53 @@ public class Enemy : NPCController {
         StartCoroutine(WaitForNextCough());
     }
 
-    public void Cough() {
+    private void Cough() {
         //TODO animation
         // Debug.Log("Coughed!!!");
-        Collider[] colliders = new Collider[15];
+        Collider[] colliders = new Collider[30];
         Physics.OverlapSphereNonAlloc(transform.position, coughingRadius, colliders);
         IEnumerable<Collider> queryColliders =
             from collider in colliders
             where collider != null && collider.gameObject.CompareTag("NPC")
             select collider;
         foreach (Collider other in queryColliders) {
-            Debug.Log("Coughing Scared!!!");
             NPCController npc = other.gameObject.GetComponent<NPCController>();
             npc.Scare();
         }
     }
+
+    #region Debug Cough area/radius
+
+    /// <summary>
+    /// Debug Cough area/radius block
+    /// </summary>
+    public int Segments = 32;
+    public Color Color = Color.blue;
+
+    private void OnDrawGizmos() {
+        DrawEllipse(transform.position, transform.up, transform.forward, coughingRadius * transform.localScale.x,
+            coughingRadius * transform.localScale.y, Segments, Color);
+    }
+
+    private void DrawEllipse(Vector3 pos, Vector3 forward, Vector3 up, float radiusX, float radiusY, int segments,
+        Color color, float duration = 0) {
+        float angle = 0f;
+        Quaternion rot = Quaternion.LookRotation(forward, up);
+        Vector3 lastPoint = Vector3.zero;
+        Vector3 thisPoint = Vector3.zero;
+
+        for (int i = 0; i < segments + 1; i++) {
+            thisPoint.x = Mathf.Sin(Mathf.Deg2Rad * angle) * radiusX;
+            thisPoint.y = Mathf.Cos(Mathf.Deg2Rad * angle) * radiusY;
+
+            if (i > 0) {
+                Debug.DrawLine(rot * lastPoint + pos, rot * thisPoint + pos, color, duration);
+            }
+
+            lastPoint = thisPoint;
+            angle += 360f / segments;
+        }
+    }
+
+    #endregion
 }
