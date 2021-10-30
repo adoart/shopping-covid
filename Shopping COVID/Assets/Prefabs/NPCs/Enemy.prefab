@@ -464,6 +464,12 @@ MonoBehaviour:
   range: 23
   enemyPrefab: {fileID: 0}
   assetModel: {fileID: 0}
+  walkingSpeed: 6
+  runningSpeed: 15
+  Segments: 32
+  Color: {r: 0, g: 0, b: 1, a: 1}
+  XRadius: 10
+  YRadius: 10
 --- !u!54 &2163980663817598774
 Rigidbody:
   m_ObjectHideFlags: 0
