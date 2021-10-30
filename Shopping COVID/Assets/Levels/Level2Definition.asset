@@ -17,6 +17,7 @@ MonoBehaviour:
   numberOfNPCs: 4
   numberOfMaskPowerUps: 2
   numberOfTrolleyPowerUps: 1
+  numberOfWetFloors: 1
   numberOfItems: 2
   mapWith: 50
   mapHeight: 50

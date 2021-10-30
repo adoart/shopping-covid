@@ -13,6 +13,7 @@ TagManager:
   - Procedural
   - Enemy
   - Shelf
+  - Water
   layers:
   - Default
   - TransparentFX

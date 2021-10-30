@@ -44,6 +44,8 @@ public class SceneBuilder : MonoBehaviour {
     [SerializeField]
     private List<GameObject> trolleys;
     [SerializeField]
+    private List<GameObject> wetFloors;
+    [SerializeField]
     private List<GameObject> items;
 
     [SerializeField]
@@ -152,6 +154,7 @@ public class SceneBuilder : MonoBehaviour {
         //Spawn Powerups
         SpawnPowerups(currentLevelDefinition.numberOfMaskPowerUps, masks, "Mask");
         SpawnPowerups(currentLevelDefinition.numberOfTrolleyPowerUps, trolleys, "Trolley");
+        SpawnPowerups(currentLevelDefinition.numberOfWetFloors, wetFloors, "Procedural");
         SpawnItems(currentLevelDefinition.numberOfItems, items, "Item");
         LayoutPlayer();
 
