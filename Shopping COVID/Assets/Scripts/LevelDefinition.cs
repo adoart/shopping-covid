@@ -8,6 +8,7 @@ public class LevelDefinition : ScriptableObject {
     public int numberOfNPCs;
     public int numberOfMaskPowerUps;
     public int numberOfTrolleyPowerUps;
+    public int numberOfWetFloors;
     [Min(1)]
     public int numberOfItems;
     public int mapWith;

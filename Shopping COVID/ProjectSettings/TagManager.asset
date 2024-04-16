@@ -12,6 +12,8 @@ TagManager:
   - Singleton
   - Procedural
   - Enemy
+  - Shelf
+  - Water
   layers:
   - Default
   - TransparentFX
