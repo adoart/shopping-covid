@@ -9,6 +9,11 @@ public class NPCController : MonoBehaviour {
     public GameObject enemyPrefab;
     public GameObject assetModel; //TODO convert NPC/Enemy to Scriptable objects...
     private GameManager gameManager;
+    [SerializeField]
+    private float walkingSpeed = 6;
+    [SerializeField]
+    private float runningSpeed = 15;
+    private float speed = 6;
 
     private Animator animator;
 
@@ -16,7 +21,8 @@ public class NPCController : MonoBehaviour {
     private int mapHeight = 50;
     private int mapWidth = 50;
 
-    void Start() {
+
+    protected void Start() {
         gameManager = FindObjectOfType<GameManager>();
         animator = GetComponentInChildren<Animator>();
         StartCoroutine(WaitForNextMove());
@@ -24,6 +30,7 @@ public class NPCController : MonoBehaviour {
 
     void Update() {
         animator.SetFloat("Speed_f", agent.velocity.magnitude);
+        agent.speed = speed;
     }
 
     private void MoveAgent() {
@@ -37,7 +44,15 @@ public class NPCController : MonoBehaviour {
         yield return new WaitForSeconds(1);
         MoveAgent();
         yield return new WaitForSeconds(Random.Range(5, 10));
+        speed = walkingSpeed;
         StartCoroutine(WaitForNextMove());
+    }
+
+    protected IEnumerator RunScared() {
+        speed = runningSpeed;
+        MoveAgent();
+        Debug.Log("NPC Running!!!");
+        yield return new WaitForSeconds(5);
     }
 
     public void Infect() {
@@ -49,11 +64,19 @@ public class NPCController : MonoBehaviour {
             }
             assetModel.transform.parent = enemy.transform;
             Destroy(gameObject);
+
+            NPCController npc = enemy.gameObject.GetComponent<NPCController>();
+            StartCoroutine(npc.RunScared());
+
         }
     }
 
     public void SetMapDimensions(int mapHeight, int mapWidth) {
         this.mapHeight = mapHeight;
         this.mapWidth = mapWidth;
+    }
+    public void Scare() {
+        Debug.Log("Coughing Scared!!!");
+        StartCoroutine(RunScared());
     }
 }
