@@ -13,8 +13,6 @@ public class FullScreenWebGLExample : MonoBehaviour {
     void Start() {
         if( FullscreenWebGL.isFullscreenSupported() ) {
             //if fullscreen is supported
-            FullscreenWebGL
-                .subscribeToFullscreenchangedEvent(); //I'm interested in listening to fullscreen changes, so I subscribe to the event.
             FullscreenWebGL.onfullscreenchange += () => {
                 //and then I add a callback that will run once the user enters or exits fullscreen
                 if( FullscreenWebGL.isFullscreen() ) {
